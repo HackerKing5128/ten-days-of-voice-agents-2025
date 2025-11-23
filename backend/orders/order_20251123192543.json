@@ -1,0 +1,12 @@
+{
+  "drinkType": "cappuccino",
+  "size": "medium",
+  "milk": "skim milk",
+  "extras": [
+    "chocolate syrup",
+    "extra shot"
+  ],
+  "name": "Mike",
+  "timestamp": "2025-11-23T19:25:43.939747",
+  "orderNumber": "20251123192543"
+}

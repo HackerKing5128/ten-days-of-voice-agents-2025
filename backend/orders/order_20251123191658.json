@@ -1,0 +1,11 @@
+{
+  "drinkType": "espresso",
+  "size": "large",
+  "milk": "none",
+  "extras": [
+    "extra shot"
+  ],
+  "name": "Katty",
+  "timestamp": "2025-11-23T19:16:58.045240",
+  "orderNumber": "20251123191658"
+}

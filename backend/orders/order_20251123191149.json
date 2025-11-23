@@ -1,0 +1,12 @@
+{
+  "drinkType": "latte",
+  "size": "large",
+  "milk": "soy milk",
+  "extras": [
+    "hazelnut syrup",
+    "vanilla syrup"
+  ],
+  "name": "Bucky",
+  "timestamp": "2025-11-23T19:11:49.001088",
+  "orderNumber": "20251123191149"
+}

@@ -1,4 +1,7 @@
 import logging
+import json
+from datetime import datetime
+from pathlib import Path
 
 from dotenv import load_dotenv
 from livekit.agents import (
@@ -12,8 +15,8 @@ from livekit.agents import (
     cli,
     metrics,
     tokenize,
-    # function_tool,
-    # RunContext
+    function_tool,
+    RunContext,
 )
 from livekit.plugins import murf, silero, google, deepgram, noise_cancellation
 from livekit.plugins.turn_detector.multilingual import MultilingualModel
@@ -26,28 +29,80 @@ load_dotenv(".env.local")
 class Assistant(Agent):
     def __init__(self) -> None:
         super().__init__(
-            instructions="""You are a helpful voice AI assistant. The user is interacting with you via voice, even if you perceive the conversation as text.
-            You eagerly assist users with their questions by providing information from your extensive knowledge.
-            Your responses are concise, to the point, and without any complex formatting or punctuation including emojis, asterisks, or other symbols.
-            You are curious, friendly, and have a sense of humor.""",
+            instructions="""You are Lara, the skilled head barista at The Rusty Mug, a cozy cabin-style coffee shop.
+
+Your persona: You are friendly, capable, and clear. You are efficient but warm, like someone who loves the outdoors and good coffee. You use phrases like "Hi there," "What can I get started for you?" and "Good choice." You speak at a natural conversation speed, not too slow and not too fast.
+
+Your task is to greet customers warmly and help them build their perfect drink.
+
+For each order, you MUST collect these 5 fields:
+1. Drink type (espresso, latte, cappuccino, americano, mocha, flat white, cold brew, etc.)
+2. Size (small, medium, or large)
+3. Milk preference (whole milk, oat milk, almond milk, skim milk, soy milk, or none)
+4. Extras (whipped cream, extra shot, flavor syrup like vanilla/caramel/hazelnut, etc.) - can be none
+5. Customer name (for the order)
+
+Important rules:
+- Ask for ONE detail at a time. Wait for the customer's response before asking the next question.
+- Ask questions in order: First drink type, then size, then milk, then extras, then name.
+- If a customer provides multiple details at once, acknowledge them and ask for the next missing detail only.
+- If a customer misses a detail, ask for it naturally. For example: "Do you want any milk with that?" or "Can I get a name for the order?"
+- Do NOT move to confirmation until all 5 fields are filled or explicitly declined.
+- Once all info is gathered, repeat the full order back to the customer to confirm.
+- After confirmation, use the save_coffee_order tool to save the order.
+
+Keep your responses concise, to the point, and without any complex formatting, emojis, asterisks, or other symbols.
+Make every customer feel welcome at The Rusty Mug!""",
         )
 
     # To add tools, use the @function_tool decorator.
-    # Here's an example that adds a simple weather tool.
-    # You also have to add `from livekit.agents import function_tool, RunContext` to the top of this file
-    # @function_tool
-    # async def lookup_weather(self, context: RunContext, location: str):
-    #     """Use this tool to look up current weather information in the given location.
-    #
-    #     If the location is not supported by the weather service, the tool will indicate this. You must tell the user the location's weather is unavailable.
-    #
-    #     Args:
-    #         location: The location to look up weather information for (e.g. city name)
-    #     """
-    #
-    #     logger.info(f"Looking up weather for {location}")
-    #
-    #     return "sunny with a temperature of 70 degrees."
+    
+    @function_tool
+    async def save_coffee_order(
+        self,
+        context: RunContext,
+        drink_type: str,
+        size: str,
+        milk: str,
+        extras: list[str],
+        name: str,
+    ):
+        """Save the completed coffee order to a JSON file.
+
+        Use this tool ONLY when you have collected ALL required information and the customer has confirmed their order.
+
+        Args:
+            drink_type: Type of coffee drink (e.g., "latte", "cappuccino", "espresso")
+            size: Size of the drink ("small", "medium", or "large")
+            milk: Milk preference ("whole milk", "oat milk", "almond milk", "skim milk", "soy milk", or "none")
+            extras: List of extra items (e.g., ["whipped cream", "extra shot", "vanilla syrup"]). Use empty list [] if no extras.
+            name: Customer's name for the order
+        """
+        order = {
+            "drinkType": drink_type,
+            "size": size,
+            "milk": milk,
+            "extras": extras,
+            "name": name,
+            "timestamp": datetime.now().isoformat(),
+            "orderNumber": datetime.now().strftime("%Y%m%d%H%M%S"),
+        }
+
+        # Create orders directory if it doesn't exist
+        orders_dir = Path("orders")
+        orders_dir.mkdir(exist_ok=True)
+
+        # Save to JSON file
+        order_filename = f"order_{order['orderNumber']}.json"
+        order_path = orders_dir / order_filename
+
+        with open(order_path, "w", encoding="utf-8") as f:
+            json.dump(order, f, indent=2)
+
+        logger.info(f"Coffee order saved: {order_path}")
+        logger.info(f"Order details: {json.dumps(order, indent=2)}")
+
+        return f"Perfect! Your order has been saved, {name}. Order number {order['orderNumber']}. Your {size} {drink_type} will be ready soon!"
 
 
 def prewarm(proc: JobProcess):
@@ -69,16 +124,16 @@ async def entrypoint(ctx: JobContext):
         # A Large Language Model (LLM) is your agent's brain, processing user input and generating a response
         # See all available models at https://docs.livekit.io/agents/models/llm/
         llm=google.LLM(
-                model="gemini-2.5-flash",
-            ),
+            model="gemini-2.5-flash",
+        ),
         # Text-to-speech (TTS) is your agent's voice, turning the LLM's text into speech that the user can hear
         # See all available models as well as voice selections at https://docs.livekit.io/agents/models/tts/
         tts=murf.TTS(
-                voice="en-US-matthew", 
-                style="Conversation",
-                tokenizer=tokenize.basic.SentenceTokenizer(min_sentence_len=2),
-                text_pacing=True
-            ),
+            voice="en-US-phoebe",
+            style="Conversation",
+            tokenizer=tokenize.basic.SentenceTokenizer(min_sentence_len=2),
+            text_pacing=True,
+        ),
         # VAD and turn detection are used to determine when the user is speaking and when the agent should respond
         # See more at https://docs.livekit.io/agents/build/turns
         turn_detection=MultilingualModel(),
