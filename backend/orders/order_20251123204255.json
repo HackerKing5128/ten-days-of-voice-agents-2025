@@ -1,0 +1,11 @@
+{
+  "drinkType": "mocha",
+  "size": "small",
+  "milk": "none",
+  "extras": [
+    "chocolate"
+  ],
+  "name": "Jay",
+  "timestamp": "2025-11-23T20:42:55.858377",
+  "orderNumber": "20251123204255"
+}

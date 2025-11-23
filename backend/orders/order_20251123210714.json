@@ -1,0 +1,12 @@
+{
+  "drinkType": "mocha",
+  "size": "small",
+  "milk": "oat milk",
+  "extras": [
+    "hazelnut syrup",
+    "extra shot"
+  ],
+  "name": "Charlie",
+  "timestamp": "2025-11-23T21:07:14.780837",
+  "orderNumber": "20251123210714"
+}

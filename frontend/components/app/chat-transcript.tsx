@@ -21,16 +21,16 @@ const CONTAINER_MOTION_PROPS = {
     visible: {
       opacity: 1,
       transition: {
-        delay: 0.2,
+        delay: 0,
         ease: 'easeOut',
-        duration: 0.3,
-        stagerDelay: 0.2,
-        staggerChildren: 0.1,
+        duration: 0.1,
+        stagerDelay: 0,
+        staggerChildren: 0.05,
         staggerDirection: 1,
       },
     },
   },
-  initial: 'hidden',
+  initial: 'visible',
   animate: 'visible',
   exit: 'hidden',
 };
@@ -58,29 +58,29 @@ export function ChatTranscript({
   messages = [],
   ...props
 }: ChatTranscriptProps & Omit<HTMLMotionProps<'div'>, 'ref'>) {
+  if (hidden) return null;
+  
   return (
-    <AnimatePresence>
-      {!hidden && (
-        <MotionContainer {...CONTAINER_MOTION_PROPS} {...props}>
-          {messages.map(({ id, timestamp, from, message, editTimestamp }: ReceivedChatMessage) => {
-            const locale = navigator?.language ?? 'en-US';
-            const messageOrigin = from?.isLocal ? 'local' : 'remote';
-            const hasBeenEdited = !!editTimestamp;
+    <MotionContainer {...CONTAINER_MOTION_PROPS} {...props}>
+      <AnimatePresence mode="popLayout">
+        {messages.map(({ id, timestamp, from, message, editTimestamp }: ReceivedChatMessage) => {
+          const locale = navigator?.language ?? 'en-US';
+          const messageOrigin = from?.isLocal ? 'local' : 'remote';
+          const hasBeenEdited = !!editTimestamp;
 
-            return (
-              <MotionChatEntry
-                key={id}
-                locale={locale}
-                timestamp={timestamp}
-                message={message}
-                messageOrigin={messageOrigin}
-                hasBeenEdited={hasBeenEdited}
-                {...MESSAGE_MOTION_PROPS}
-              />
-            );
-          })}
-        </MotionContainer>
-      )}
-    </AnimatePresence>
+          return (
+            <MotionChatEntry
+              key={id}
+              locale={locale}
+              timestamp={timestamp}
+              message={message}
+              messageOrigin={messageOrigin}
+              hasBeenEdited={hasBeenEdited}
+              {...MESSAGE_MOTION_PROPS}
+            />
+          );
+        })}
+      </AnimatePresence>
+    </MotionContainer>
   );
 }

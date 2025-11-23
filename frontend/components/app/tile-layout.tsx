@@ -38,8 +38,8 @@ const classNames = {
   // chatOpen: true,
   // hasSecondTile: false
   // layout: Column 1 / Row 1 / Column-Span 2
-  // align: x-center y-center
-  agentChatOpenWithoutSecondTile: ['col-start-1 row-start-1', 'col-span-2', 'place-content-center'],
+  // align: x-center y-top
+  agentChatOpenWithoutSecondTile: ['col-start-1 row-start-1', 'col-span-2', 'self-start justify-self-center pt-8'],
   // Agent
   // chatOpen: false
   // layout: Column 1 / Row 1 / Column-Span 2 / Row-Span 3
