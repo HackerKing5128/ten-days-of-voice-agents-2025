@@ -43,7 +43,7 @@ export function AgentControlBar({
 }: AgentControlBarProps & HTMLAttributes<HTMLDivElement>) {
   const { send } = useChat();
   const participants = useRemoteParticipants();
-  const [chatOpen, setChatOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(true); // Chat always open by default
   const publishPermissions = usePublishPermissions();
   const { isSessionActive, endSession } = useSession();
 

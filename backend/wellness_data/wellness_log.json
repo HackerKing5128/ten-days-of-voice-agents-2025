@@ -1,0 +1,66 @@
+{
+  "check_ins": [
+    {
+      "date": "2025-11-24",
+      "timestamp": "2025-11-24T14:34:30.086187",
+      "mood": "fine",
+      "energy_level": "low",
+      "objectives": [
+        "Complete the timing for the project"
+      ],
+      "summary": "User feels fine with low energy, aiming to complete project timing."
+    },
+    {
+      "date": "2025-11-25",
+      "timestamp": "2025-11-24T14:40:02.025013",
+      "mood": "great",
+      "energy_level": "high",
+      "objectives": [
+        "ace the practical exams"
+      ],
+      "summary": "User feels great with high energy, aiming to ace practical exams today."
+    },
+    {
+      "date": "2025-11-27",
+      "timestamp": "2025-11-24T20:03:23.104460",
+      "mood": "good",
+      "energy_level": "low",
+      "objectives": [
+        "prepare for the practicals tomorrow",
+        "complete the pending assignment"
+      ],
+      "summary": "User is feeling good but a little low on energy. Objectives are to prepare for practicals and complete a pending assignment."
+    },
+    {
+      "date": "2025-11-28",
+      "timestamp": "2025-11-24T20:31:52.920385",
+      "mood": "good",
+      "energy_level": "mid",
+      "objectives": [
+        "good 8 hour sleep"
+      ],
+      "summary": "User feels good with mid energy, aiming for 8 hours of sleep. Recommended preparing a calm space for rest."
+    },
+    {
+      "date": "2025-11-29",
+      "timestamp": "2025-11-24T20:43:56.038006",
+      "mood": "low",
+      "energy_level": "depleted",
+      "objectives": [
+        "rest"
+      ],
+      "summary": "User reported no energy and aimed to rest."
+    },
+    {
+      "date": "2025-11-30",
+      "timestamp": "2025-11-24T20:46:36.180848",
+      "mood": "great",
+      "energy_level": "full",
+      "objectives": [
+        "rest",
+        "complete pending tasks"
+      ],
+      "summary": "User feels great with full energy, aims to rest and complete pending tasks. Suggested breaking tasks into smaller steps."
+    }
+  ]
+}
