@@ -1,4 +1,4 @@
-# AI Voice Agents Challenge - Starter Repository
+# AI Voice Agents Challenge - Day 3: Health & Wellness Voice Companion
 
 Welcome to the **AI Voice Agents Challenge** by [murf.ai](https://murf.ai)!
 
@@ -13,6 +13,34 @@ We just launched **Murf Falcon** – the consistently fastest TTS API, and you'r
 - One task to be provided everyday along with a GitHub repo for reference
 - Build a voice agent with specific personas and skills
 - Post on GitHub and share with the world on LinkedIn!
+
+## Day 3: Orion - Health & Wellness Voice Companion
+
+**Agent Persona:** Orion - Stoic, calm wellness companion with deep male voice  
+
+### Features
+
+- **Daily Wellness Check-ins:** Tracks mood, energy levels, and daily objectives
+- **Date Mocking System:** Simulates multi-day sessions for demo purposes
+- **Contextual Memory:** References previous check-ins during conversations
+- **JSON Persistence:** Saves all wellness logs to local JSON files
+- **Function Tools:**
+  - `get_current_date()` - Returns mocked dates with day counter
+  - `load_previous_checkins(days=7)` - Retrieves past check-in history
+  - `save_wellness_checkin()` - Persists mood, energy, objectives, and summary
+- **Wellness-Themed UI:** Teal color scheme with Orion constellation icon
+- **Real-Time Chat:** Visible chat transcript with auto-scroll
+
+### Tech Stack
+
+- **Backend:** Python + LiveKit Agents SDK
+- **TTS:** Murf Falcon (male, calm voice)
+- **STT:** Deepgram (nova-3)
+- **LLM:** Google Gemini 2.5-flash
+- **Frontend:** Next.js 15 + React 19 + TypeScript
+- **Styling:** Tailwind CSS v4 with custom wellness theme
+
+---
 
 ## Repository Structure
 
