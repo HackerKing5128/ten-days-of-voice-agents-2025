@@ -61,6 +61,50 @@
         "complete pending tasks"
       ],
       "summary": "User feels great with full energy, aims to rest and complete pending tasks. Suggested breaking tasks into smaller steps."
+    },
+    {
+      "date": "2025-12-02",
+      "timestamp": "2025-11-24T20:55:48.954854",
+      "mood": "fine",
+      "energy_level": "not too high",
+      "objectives": [
+        "complete pending work",
+        "rest well"
+      ],
+      "summary": "The user feels fine with not too high energy and aims to complete pending work and rest well."
+    },
+    {
+      "date": "2025-12-03",
+      "timestamp": "2025-11-24T20:59:05.989707",
+      "mood": "fine",
+      "energy_level": "low",
+      "objectives": [
+        "rest",
+        "replenish myself"
+      ],
+      "summary": "User reported feeling fine with low energy, and aims to rest and replenish themselves."
+    },
+    {
+      "date": "2025-12-04",
+      "timestamp": "2025-11-24T21:02:04.889968",
+      "mood": "good",
+      "energy_level": "low to mid",
+      "objectives": [
+        "rest",
+        "listen to spotify"
+      ],
+      "summary": "The user feels good with low to mid energy and aims to rest and listen to Spotify."
+    },
+    {
+      "date": "2025-12-06",
+      "timestamp": "2025-11-24T21:07:22.604649",
+      "mood": "fine",
+      "energy_level": "okay",
+      "objectives": [
+        "rest",
+        "complete pending assignment"
+      ],
+      "summary": "User feels fine with okay energy. Objectives are to rest and complete a pending assignment."
     }
   ]
 }
