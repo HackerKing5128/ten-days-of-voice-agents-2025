@@ -7,56 +7,81 @@ Welcome to the **AI Voice Agents Challenge** by [murf.ai](https://murf.ai)!
 We just launched **Murf Falcon** – the consistently fastest TTS API, and you're going to be among the first to test it out in ways never thought before!
 
 **Build 10 AI Voice Agents over the course of 10 Days** along with help from our devs and the community champs, and win rewards!
+---
+---
 
-### How It Works
+# Day 5 - Razorpay SDR Agent Implementation
 
-- One task to be provided everyday along with a GitHub repo for reference
-- Build a voice agent with specific personas and skills
-- Post on GitHub and share with the world on LinkedIn!
+## 🎯 Overview
 
-## Repository Structure
+**Zoya** - An energetic and efficient AI SDR (Sales Development Representative) for Razorpay, India's leading payment solutions company.
 
-This is a **monorepo** that contains both the backend and frontend for building voice agent applications. It's designed to be your starting point for each day's challenge task.
+## ✨ Features Implemented
 
-```
-falcon-tdova-nov25-livekit/
-├── backend/          # LiveKit Agents backend with Murf Falcon TTS
-├── frontend/         # React/Next.js frontend for voice interaction
-├── start_app.sh      # Convenience script to start all services
-└── README.md         # This file
-```
+### Primary Goal (MVP) ✅
 
-### Backend
+1. **Professional SDR Persona - "Zoya"**
+   - Energetic, efficient, and quick-witted
+   - Modern fintech vibe matching Razorpay's brand
+   - Natural conversational flow
 
-The backend is based on [LiveKit's agent-starter-python](https://github.com/livekit-examples/agent-starter-python) with modifications to integrate **Murf Falcon TTS** for ultra-fast, high-quality voice synthesis.
+2. **Comprehensive FAQ System**
+   - 30+ detailed FAQ entries covering:
+     - Product features (Payment Gateway, Subscriptions, Invoices, RazorpayX, etc.)
+     - Pricing and transparency
+     - Integration details
+     - Payment methods (100+ supported)
+     - Security and compliance
+     - Use cases across industries
+     - Technical specifications
 
-**Features:**
+3. **Intelligent FAQ Search**
+   - Keyword-based matching with scoring algorithm
+   - Multi-factor relevance (keywords, question match, category bonus)
+   - Natural response formatting
 
-- Complete voice AI agent framework using LiveKit Agents
-- Murf Falcon TTS integration for fastest text-to-speech
-- LiveKit Turn Detector for contextually-aware speaker detection
-- Background voice cancellation
-- Integrated metrics and logging
-- Complete test suite with evaluation framework
-- Production-ready Dockerfile
+4. **Lead Information Collection**
+   - Personal Info: name, email, company, role
+   - Business Context: use_case, team_size, timeline, pain_points
+   - Automatic tracking of questions asked
+   - Interest level qualification
 
-[→ Backend Documentation](./backend/README.md)
+5. **End-of-Call Summary**
+   - Personalized closing based on conversation
+   - Timeline-aware follow-up promises
+   - Automatic interest level scoring
+   - Complete lead data export to JSON
 
-### Frontend
+## 🛠️ Tools Available to Zoya
 
-The frontend is based on [LiveKit's agent-starter-react](https://github.com/livekit-examples/agent-starter-react), providing a modern, beautiful UI for interacting with your voice agents.
+### 1. `search_faq(query: str)`
+Search Razorpay FAQ for relevant information.
+- **When to use**: User asks about products, pricing, features, integrations, etc.
+- **Example**: `search_faq("What are your pricing plans?")`
 
-**Features:**
+### 2. `save_lead_info(field: str, value: str)`
+Save collected lead information incrementally.
+- **Fields**: name, email, company, role, use_case, team_size, timeline, pain_point
+- **Auto-saves**: Immediately writes to JSON after each field
+- **Example**: `save_lead_info("email", "founder@startup.com")`
 
-- Real-time voice interaction with LiveKit Agents
-- Camera video streaming support
-- Screen sharing capabilities
-- Audio visualization and level monitoring
-- Light/dark theme switching
-- Highly customizable branding and UI
+### 3. `get_pricing_info()`
+Get concise Razorpay pricing summary.
+- **Returns**: Standard pricing (2% per transaction, zero setup fees)
 
-[→ Frontend Documentation](./frontend/README.md)
+### 4. `get_company_info()`
+Get Razorpay company overview.
+- **Returns**: Tagline, description, customer count, industries served
 
+### 5. `end_conversation_summary()`
+Generate personalized end-of-call summary.
+- **When to use**: User says goodbye, thanks, that's all, etc.
+- **Actions**:
+  - Creates personalized closing message
+  - Scores interest level (high/medium/low)
+  - Saves final lead report
+  - Provides timeline-aware follow-up promise
+---
 ## Quick Start
 
 ### Prerequisites
