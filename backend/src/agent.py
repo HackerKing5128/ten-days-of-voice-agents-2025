@@ -1,4 +1,7 @@
 import logging
+import json
+from pathlib import Path
+from typing import Optional
 
 from dotenv import load_dotenv
 from livekit.agents import (
@@ -12,8 +15,8 @@ from livekit.agents import (
     cli,
     metrics,
     tokenize,
-    # function_tool,
-    # RunContext
+    function_tool,
+    RunContext,
 )
 from livekit.plugins import murf, silero, google, deepgram, noise_cancellation
 from livekit.plugins.turn_detector.multilingual import MultilingualModel
@@ -22,32 +25,281 @@ logger = logging.getLogger("agent")
 
 load_dotenv(".env.local")
 
+# Load tutor content
+def load_tutor_content():
+    """Load programming concepts from JSON file"""
+    content_path = Path(__file__).parent.parent / "shared-data" / "day4_tutor_content.json"
+    with open(content_path, "r") as f:
+        return json.load(f)
 
-class Assistant(Agent):
+
+TUTOR_CONTENT = load_tutor_content()
+
+
+def get_concept_by_id(concept_id: str):
+    """Get a specific concept by ID"""
+    for concept in TUTOR_CONTENT:
+        if concept["id"] == concept_id:
+            return concept
+    return None
+
+
+# ============================================================================
+# COORDINATOR AGENT - Greets and routes to correct learning mode
+# ============================================================================
+class CoordinatorAgent(Agent):
     def __init__(self) -> None:
         super().__init__(
-            instructions="""You are a helpful voice AI assistant. The user is interacting with you via voice, even if you perceive the conversation as text.
-            You eagerly assist users with their questions by providing information from your extensive knowledge.
-            Your responses are concise, to the point, and without any complex formatting or punctuation including emojis, asterisks, or other symbols.
-            You are curious, friendly, and have a sense of humor.""",
+            instructions="""You are a friendly learning coordinator for a programming tutorial system.
+
+Your role:
+1. Greet the user warmly
+2. Explain that you have three learning modes available:
+   - LEARN mode: Where concepts are explained to you
+   - QUIZ mode: Where you're tested with questions
+   - TEACH BACK mode: Where you explain concepts back to me
+3. Ask which mode they'd like to start with
+4. Once they choose, use the appropriate handoff tool to transfer them
+
+Be encouraging and brief. Don't explain the concepts yourself - that's the job of the other agents.
+When the user indicates their preference, immediately call the handoff tool.""",
         )
 
-    # To add tools, use the @function_tool decorator.
-    # Here's an example that adds a simple weather tool.
-    # You also have to add `from livekit.agents import function_tool, RunContext` to the top of this file
-    # @function_tool
-    # async def lookup_weather(self, context: RunContext, location: str):
-    #     """Use this tool to look up current weather information in the given location.
-    #
-    #     If the location is not supported by the weather service, the tool will indicate this. You must tell the user the location's weather is unavailable.
-    #
-    #     Args:
-    #         location: The location to look up weather information for (e.g. city name)
-    #     """
-    #
-    #     logger.info(f"Looking up weather for {location}")
-    #
-    #     return "sunny with a temperature of 70 degrees."
+    @function_tool()
+    async def switch_to_learn_mode(self, context: RunContext, concept_id: str = "variables"):
+        """Switch to LEARN mode where concepts are explained.
+
+        Args:
+            concept_id: The concept to learn (variables, loops, functions, conditionals, data_types, lists)
+        """
+        logger.info(f"Switching to LEARN mode for concept: {concept_id}")
+        concept = get_concept_by_id(concept_id)
+        if not concept:
+            return (
+                "",
+                "Concept '{concept_id}' not found. Available: variables, loops, functions, "
+                "conditionals, data_types, lists",
+            )
+
+        # Handoff by returning the new agent instance
+        return LearnAgent(concept_id=concept_id), f"Transferring to LEARN mode for {concept['title']}"
+
+    @function_tool()
+    async def switch_to_quiz_mode(self, context: RunContext, concept_id: str = "variables"):
+        """Switch to QUIZ mode where you'll be asked questions.
+
+        Args:
+            concept_id: The concept to quiz on (variables, loops, functions, conditionals, data_types, lists)
+        """
+        logger.info(f"Switching to QUIZ mode for concept: {concept_id}")
+        concept = get_concept_by_id(concept_id)
+        if not concept:
+            return (
+                "",
+                "Concept '{concept_id}' not found. Available: variables, loops, functions, "
+                "conditionals, data_types, lists",
+            )
+
+        return QuizAgent(concept_id=concept_id), f"Transferring to QUIZ mode for {concept['title']}"
+
+    @function_tool()
+    async def switch_to_teach_back_mode(self, context: RunContext, concept_id: str = "variables"):
+        """Switch to TEACH BACK mode where the user explains the concept back.
+
+        Args:
+            concept_id: The concept to teach back (variables, loops, functions, conditionals, data_types, lists)
+        """
+        logger.info(f"Switching to TEACH BACK mode for concept: {concept_id}")
+        concept = get_concept_by_id(concept_id)
+        if not concept:
+            return (
+                "",
+                "Concept '{concept_id}' not found. Available: variables, loops, functions, "
+                "conditionals, data_types, lists",
+            )
+
+        return TeachBackAgent(concept_id=concept_id), f"Transferring to TEACH BACK mode for {concept['title']}"
+
+
+# ============================================================================
+# LEARN AGENT - Explains concepts (Matthew voice)
+# ============================================================================
+class LearnAgent(Agent):
+    def __init__(self, concept_id: str = "variables") -> None:
+        self.concept_id = concept_id
+        concept = get_concept_by_id(concept_id)
+
+        instructions = f"""You are Matthew, a patient and clear programming educator.
+
+You are currently teaching: {concept['title']}
+
+Concept Summary:
+{concept['summary']}
+
+Your role:
+- Explain this programming concept in simple, understandable terms
+- Break down complex ideas into digestible parts
+- Give practical examples when helpful
+- Check for understanding with simple questions
+
+When the user understands or wants to move on:
+- Suggest switching to QUIZ mode to test their knowledge
+- Or TEACH BACK mode to explain it in their own words
+
+Keep explanations concise but thorough. Use analogies when helpful."""
+
+        learn_tts = murf.TTS(
+            voice="en-US-matthew",
+            style="Conversation",
+            tokenizer=tokenize.basic.SentenceTokenizer(min_sentence_len=2),
+            text_pacing=True,
+        )
+
+        super().__init__(instructions=instructions, tts=learn_tts)
+
+    @function_tool()
+    async def switch_to_quiz_mode(self, context: RunContext):
+        """Switch to QUIZ mode to test the user's understanding."""
+        logger.info(f"LearnAgent switching to QuizAgent for: {self.concept_id}")
+        return QuizAgent(concept_id=self.concept_id), "Switching to quiz mode"
+
+    @function_tool()
+    async def switch_to_teach_back_mode(self, context: RunContext):
+        """Switch to TEACH BACK mode where user explains the concept."""
+        logger.info(f"LearnAgent switching to TeachBackAgent for: {self.concept_id}")
+        return TeachBackAgent(concept_id=self.concept_id), "Switching to teach back mode"
+
+
+# ============================================================================
+# QUIZ AGENT - Asks questions (Alicia voice)
+# ============================================================================
+class QuizAgent(Agent):
+    def __init__(self, concept_id: str = "variables") -> None:
+        self.concept_id = concept_id
+        concept = get_concept_by_id(concept_id)
+
+        instructions = f"""You are Alicia, an encouraging quiz master for programming concepts.
+
+You are quizzing on: {concept['title']}
+
+Sample Question: {concept['sample_question']}
+
+Your role:
+- Ask questions to test the user's understanding
+- Use the sample question as a starting point, but feel free to ask related questions
+- Give immediate, constructive feedback on answers
+- If they struggle, offer hints or simplify the question
+- Celebrate correct answers enthusiastically but briefly
+- For wrong answers, gently guide them to the right answer
+
+When the user is ready:
+- Suggest switching to TEACH BACK mode to explain the concept in their own words
+- Or going back to LEARN mode if they need review
+
+Keep the quiz engaging and supportive. One question at a time."""
+
+        quiz_tts = murf.TTS(
+            voice="en-US-alicia",
+            style="Conversation",
+            tokenizer=tokenize.basic.SentenceTokenizer(min_sentence_len=2),
+            text_pacing=True,
+        )
+
+        super().__init__(instructions=instructions, tts=quiz_tts)
+
+    @function_tool()
+    async def switch_to_learn_mode(self, context: RunContext):
+        """Switch back to LEARN mode for more explanation."""
+        logger.info(f"QuizAgent switching to LearnAgent for: {self.concept_id}")
+        return LearnAgent(concept_id=self.concept_id), "Switching to learn mode"
+
+    @function_tool()
+    async def switch_to_teach_back_mode(self, context: RunContext):
+        """Switch to TEACH BACK mode where user explains the concept."""
+        logger.info(f"QuizAgent switching to TeachBackAgent for: {self.concept_id}")
+        return TeachBackAgent(concept_id=self.concept_id), "Switching to teach back mode"
+
+
+# ============================================================================
+# TEACH BACK AGENT - Evaluates user explanations (Ken voice)
+# ============================================================================
+class TeachBackAgent(Agent):
+    def __init__(self, concept_id: str = "variables") -> None:
+        self.concept_id = concept_id
+        concept = get_concept_by_id(concept_id)
+
+        instructions = f"""You are Ken, a thoughtful and constructive evaluator of programming knowledge.
+
+You are evaluating the user's understanding of: {concept['title']}
+
+Reference Summary:
+{concept['summary']}
+
+Your role:
+- Ask the user to explain the current concept in their own words
+- Listen carefully to their explanation
+- Provide specific, constructive feedback:
+  * Point out what they explained well
+  * Gently identify any missing pieces or misconceptions
+  * Fill in gaps without being condescending
+- Keep feedback balanced and encouraging
+
+Use the reference summary above as your guide for what a complete explanation includes.
+
+When done:
+- Suggest they could learn another concept
+- Or practice more with quiz mode
+- Or review in learn mode if needed
+
+Be supportive and focus on growth."""
+
+        teachback_tts = murf.TTS(
+            voice="en-US-ken",
+            style="Conversation",
+            tokenizer=tokenize.basic.SentenceTokenizer(min_sentence_len=2),
+            text_pacing=True,
+        )
+
+        super().__init__(instructions=instructions, tts=teachback_tts)
+
+    @function_tool()
+    async def switch_to_learn_mode(self, context: RunContext, concept_id: str = "variables"):
+        """Switch to LEARN mode to learn a new concept or review.
+
+        Args:
+            concept_id: The concept to learn (variables, loops, functions, conditionals, data_types, lists)
+        """
+        logger.info(f"TeachBackAgent switching to LearnAgent for: {concept_id}")
+        concept = get_concept_by_id(concept_id)
+        if not concept:
+            return (
+                "",
+                "Concept '{concept_id}' not found. Available: variables, loops, functions, "
+                "conditionals, data_types, lists",
+            )
+
+        return LearnAgent(concept_id=concept_id), f"Switching to learn mode for {concept['title']}"
+
+    @function_tool()
+    async def switch_to_quiz_mode(self, context: RunContext, concept_id: str | None = None):
+        """Switch to QUIZ mode to practice more.
+
+        Args:
+            concept_id: Optional - The concept to quiz on. If not provided, uses current concept.
+        """
+        if concept_id is None:
+            concept_id = self.concept_id
+
+        logger.info(f"TeachBackAgent switching to QuizAgent for: {concept_id}")
+        concept = get_concept_by_id(concept_id)
+        if not concept:
+            return (
+                "",
+                "Concept '{concept_id}' not found. Available: variables, loops, functions, "
+                "conditionals, data_types, lists",
+            )
+
+        return QuizAgent(concept_id=concept_id), "Switching to quiz mode"
 
 
 def prewarm(proc: JobProcess):
@@ -56,50 +308,28 @@ def prewarm(proc: JobProcess):
 
 async def entrypoint(ctx: JobContext):
     # Logging setup
-    # Add any other context you want in all log entries here
     ctx.log_context_fields = {
         "room": ctx.room.name,
     }
 
-    # Set up a voice AI pipeline using OpenAI, Cartesia, AssemblyAI, and the LiveKit turn detector
+    # Set up a voice AI pipeline
     session = AgentSession(
-        # Speech-to-text (STT) is your agent's ears, turning the user's speech into text that the LLM can understand
-        # See all available models at https://docs.livekit.io/agents/models/stt/
         stt=deepgram.STT(model="nova-3"),
-        # A Large Language Model (LLM) is your agent's brain, processing user input and generating a response
-        # See all available models at https://docs.livekit.io/agents/models/llm/
         llm=google.LLM(
-                model="gemini-2.5-flash",
-            ),
-        # Text-to-speech (TTS) is your agent's voice, turning the LLM's text into speech that the user can hear
-        # See all available models as well as voice selections at https://docs.livekit.io/agents/models/tts/
+            model="gemini-2.5-flash",
+        ),
         tts=murf.TTS(
-                voice="en-US-matthew", 
-                style="Conversation",
-                tokenizer=tokenize.basic.SentenceTokenizer(min_sentence_len=2),
-                text_pacing=True
-            ),
-        # VAD and turn detection are used to determine when the user is speaking and when the agent should respond
-        # See more at https://docs.livekit.io/agents/build/turns
+            voice="en-US-matthew",
+            style="Conversation",
+            tokenizer=tokenize.basic.SentenceTokenizer(min_sentence_len=2),
+            text_pacing=True,
+        ),
         turn_detection=MultilingualModel(),
         vad=ctx.proc.userdata["vad"],
-        # allow the LLM to generate a response while waiting for the end of turn
-        # See more at https://docs.livekit.io/agents/build/audio/#preemptive-generation
         preemptive_generation=True,
     )
 
-    # To use a realtime model instead of a voice pipeline, use the following session setup instead.
-    # (Note: This is for the OpenAI Realtime API. For other providers, see https://docs.livekit.io/agents/models/realtime/))
-    # 1. Install livekit-agents[openai]
-    # 2. Set OPENAI_API_KEY in .env.local
-    # 3. Add `from livekit.plugins import openai` to the top of this file
-    # 4. Use the following session setup instead of the version above
-    # session = AgentSession(
-    #     llm=openai.realtime.RealtimeModel(voice="marin")
-    # )
-
-    # Metrics collection, to measure pipeline performance
-    # For more information, see https://docs.livekit.io/agents/build/metrics/
+    # Metrics collection
     usage_collector = metrics.UsageCollector()
 
     @session.on("metrics_collected")
@@ -113,20 +343,11 @@ async def entrypoint(ctx: JobContext):
 
     ctx.add_shutdown_callback(log_usage)
 
-    # # Add a virtual avatar to the session, if desired
-    # # For other providers, see https://docs.livekit.io/agents/models/avatar/
-    # avatar = hedra.AvatarSession(
-    #   avatar_id="...",  # See https://docs.livekit.io/agents/models/avatar/plugins/hedra
-    # )
-    # # Start the avatar and wait for it to join
-    # await avatar.start(session, room=ctx.room)
-
     # Start the session, which initializes the voice pipeline and warms up the models
     await session.start(
-        agent=Assistant(),
+        agent=CoordinatorAgent(),
         room=ctx.room,
         room_input_options=RoomInputOptions(
-            # For telephony applications, use `BVCTelephony` for best results
             noise_cancellation=noise_cancellation.BVC(),
         ),
     )

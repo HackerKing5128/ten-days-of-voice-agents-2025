@@ -1,0 +1,38 @@
+[
+  {
+    "id": "variables",
+    "title": "Variables in Programming",
+    "summary": "Variables are containers that store data values. Think of them as labeled boxes where you can put information and retrieve it later. In Python, you create a variable by simply assigning a value to a name, like x = 5 or name = 'Alice'. Variables make your code reusable and easier to read.",
+    "sample_question": "What is a variable and why do we use them in programming?"
+  },
+  {
+    "id": "loops",
+    "title": "Loops",
+    "summary": "Loops allow you to repeat a block of code multiple times. There are two main types: 'for loops' which iterate over a sequence a specific number of times, and 'while loops' which continue until a condition becomes false. Loops help you avoid writing repetitive code and make programs more efficient.",
+    "sample_question": "Explain the difference between a for loop and a while loop, and when you would use each one."
+  },
+  {
+    "id": "functions",
+    "title": "Functions",
+    "summary": "Functions are reusable blocks of code that perform a specific task. You define a function once with 'def function_name()' and can call it multiple times. Functions can take inputs called parameters and return outputs. They help organize code, make it more readable, and reduce repetition.",
+    "sample_question": "What is a function and what are the benefits of using functions in your code?"
+  },
+  {
+    "id": "conditionals",
+    "title": "Conditional Statements",
+    "summary": "Conditionals allow your program to make decisions based on conditions. The most common are 'if', 'elif', and 'else' statements. They check whether something is true or false and execute different code based on the result. This gives your programs the ability to respond differently to different situations.",
+    "sample_question": "How do if-elseif-else statements work, and why are they important in programming?"
+  },
+  {
+    "id": "data_types",
+    "title": "Data Types",
+    "summary": "Data types define what kind of value a variable can hold. Common types include integers for whole numbers, floats for decimals, strings for text, and booleans for true/false values. Understanding data types is crucial because different types support different operations and use memory differently.",
+    "sample_question": "Name three common data types in Python and explain what each one is used for."
+  },
+  {
+    "id": "lists",
+    "title": "Lists and Arrays",
+    "summary": "Lists are ordered collections that can hold multiple values in a single variable. You can access items by their position (index), add new items, remove items, and loop through all items. Lists are incredibly useful for storing related data together, like a shopping list or a collection of user names.",
+    "sample_question": "What is a list, and how do you access individual items in a list?"
+  }
+]
