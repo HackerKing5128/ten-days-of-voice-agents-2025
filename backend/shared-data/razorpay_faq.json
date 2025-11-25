@@ -1,0 +1,419 @@
+{
+  "company": {
+    "name": "Razorpay",
+    "tagline": "Power your finance, grow your business",
+    "description": "Razorpay is India's leading full-stack financial solutions company that helps businesses accept, process and disburse payments with its product suite. We provide a fast, affordable and secure way for merchants, schools, ecommerce and other companies to accept and disburse payments online.",
+    "founded": "2014",
+    "headquarters": "Bangalore, India",
+    "customers": "10+ million",
+    "industries_served": [
+      "E-commerce",
+      "SaaS",
+      "EdTech",
+      "HealthTech",
+      "BFSI",
+      "Logistics",
+      "Travel",
+      "Gaming",
+      "Retail"
+    ],
+    "website": "https://razorpay.com"
+  },
+  "products": [
+    {
+      "name": "Payment Gateway",
+      "description": "Accept payments online through 100+ payment modes including Credit Card, Debit Card, UPI, Netbanking, Wallets, EMI and more",
+      "key_features": [
+        "100+ payment methods",
+        "Instant activation",
+        "International payments support",
+        "Smart routing for higher success rates",
+        "No setup fee, no annual maintenance fee"
+      ]
+    },
+    {
+      "name": "Payment Links",
+      "description": "Create and share payment links instantly - no website or coding required",
+      "key_features": [
+        "Create payment links in 30 seconds",
+        "Share via SMS, Email, WhatsApp",
+        "Track payment status in real-time",
+        "Works on any device"
+      ]
+    },
+    {
+      "name": "Payment Pages",
+      "description": "Customizable payment pages to sell products and services online",
+      "key_features": [
+        "No coding required",
+        "Mobile optimized",
+        "Custom branding",
+        "Built-in analytics"
+      ]
+    },
+    {
+      "name": "Invoices",
+      "description": "Send professional invoices and get paid faster",
+      "key_features": [
+        "GST compliant invoicing",
+        "Auto payment reminders",
+        "Multiple payment options",
+        "Track invoice status"
+      ]
+    },
+    {
+      "name": "Subscriptions",
+      "description": "Automate recurring billing and subscription management",
+      "key_features": [
+        "Automated recurring billing",
+        "Support for trials and discounts",
+        "Dunning management",
+        "Customer portal"
+      ]
+    },
+    {
+      "name": "Smart Collect",
+      "description": "Virtual accounts for automated payment reconciliation",
+      "key_features": [
+        "Instant virtual account creation",
+        "Auto-reconciliation",
+        "Support for UPI, NEFT, RTGS, IMPS",
+        "Webhooks for real-time notifications"
+      ]
+    },
+    {
+      "name": "Route",
+      "description": "Split and route payments across multiple accounts instantly",
+      "key_features": [
+        "Instant settlements to multiple accounts",
+        "Marketplace payment splitting",
+        "Automated commission management",
+        "No manual reconciliation"
+      ]
+    },
+    {
+      "name": "PayRoll",
+      "description": "Complete payroll management solution",
+      "key_features": [
+        "Automated salary processing",
+        "Compliance management",
+        "Employee self-service portal",
+        "Integration with accounting software"
+      ]
+    },
+    {
+      "name": "RazorpayX",
+      "description": "Business banking platform with current account and corporate cards",
+      "key_features": [
+        "Zero balance current account",
+        "Instant vendor payouts",
+        "Corporate cards with spending controls",
+        "Integrated accounting"
+      ]
+    }
+  ],
+  "faqs": [
+    {
+      "id": "faq001",
+      "category": "product_overview",
+      "question": "What does Razorpay do?",
+      "answer": "Razorpay is a complete payments and banking solution for businesses in India. We help you accept online payments through our payment gateway, manage invoices and subscriptions, handle payroll, and even provide business banking services. Over 10 million businesses use Razorpay to power their finances and grow their business.",
+      "keywords": ["what", "razorpay", "do", "product", "overview", "about"]
+    },
+    {
+      "id": "faq002",
+      "category": "product_overview",
+      "question": "Who is Razorpay for?",
+      "answer": "Razorpay is built for businesses of all sizes - from freelancers and startups to large enterprises. Whether you're running an e-commerce store, a SaaS product, an EdTech platform, a healthcare service, or any business that needs to accept payments online, Razorpay has solutions tailored for you. We serve over 10 million businesses across industries like retail, gaming, travel, logistics, and more.",
+      "keywords": ["who", "for", "target", "customers", "audience", "businesses"]
+    },
+    {
+      "id": "faq003",
+      "category": "pricing",
+      "question": "What are your pricing plans?",
+      "answer": "Razorpay offers transparent, competitive pricing with no setup fees or annual maintenance charges. For our standard Payment Gateway, we charge 2% per transaction (no platform fee on UPI). We also have custom enterprise pricing for high-volume businesses. The best part? You can start with our free test mode to integrate and test everything before going live. Different products like RazorpayX, Payroll, and Route have their own pricing models which we can discuss based on your needs.",
+      "keywords": ["pricing", "price", "cost", "fees", "charges", "plans", "how much"]
+    },
+    {
+      "id": "faq004",
+      "category": "pricing",
+      "question": "Do you have a free tier or trial?",
+      "answer": "Yes! You can create a free Razorpay account and use our test mode indefinitely. This lets you integrate all our products, test the entire payment flow, and build your application without any costs. When you're ready to go live and start accepting real payments, that's when our transaction fees apply. There are no setup fees, no annual charges - you only pay for successful transactions.",
+      "keywords": ["free", "trial", "test", "demo", "sandbox"]
+    },
+    {
+      "id": "faq005",
+      "category": "pricing",
+      "question": "Are there any hidden charges?",
+      "answer": "No hidden charges at all! We believe in complete transparency. Our standard pricing is 2% per transaction with zero platform fee on UPI. There are no setup fees, no annual maintenance charges, and no hidden costs. What you see is what you pay. For specific use cases or high volumes, we offer custom enterprise pricing which we'll discuss upfront.",
+      "keywords": ["hidden", "charges", "fees", "transparent", "additional costs"]
+    },
+    {
+      "id": "faq006",
+      "category": "integration",
+      "question": "How easy is it to integrate Razorpay?",
+      "answer": "Integration is super simple! Most developers integrate Razorpay in under 2 hours. We provide SDKs for all major languages - Python, Node.js, PHP, Ruby, Java, .NET and more. We also have no-code solutions like Payment Links and Payment Pages if you don't want to write any code. Our documentation is extensive with step-by-step guides, sample code, and video tutorials. Plus, our technical support team is available to help you.",
+      "keywords": ["integration", "integrate", "setup", "easy", "how to", "implement"]
+    },
+    {
+      "id": "faq007",
+      "category": "integration",
+      "question": "What programming languages do you support?",
+      "answer": "We support all major programming languages with official SDKs including Python, Node.js, PHP, Ruby, Java, .NET, and Go. We also have mobile SDKs for Android and iOS. If you're using a different language, our RESTful APIs work with any language that can make HTTP requests. Plus, we have plugins for popular platforms like WordPress, WooCommerce, Shopify, Magento, and more.",
+      "keywords": ["languages", "sdk", "programming", "python", "node", "php", "java"]
+    },
+    {
+      "id": "faq008",
+      "category": "integration",
+      "question": "Can I integrate Razorpay without coding?",
+      "answer": "Absolutely! We have several no-code solutions. Payment Links let you create and share payment pages in 30 seconds - just share the link via WhatsApp, SMS, or email. Payment Pages give you customizable checkout pages without any coding. We also have plugins for platforms like WordPress, Shopify, and WooCommerce that you can set up with just a few clicks. Perfect for non-technical users!",
+      "keywords": ["no code", "without coding", "non-technical", "easy", "plugins"]
+    },
+    {
+      "id": "faq009",
+      "category": "payment_methods",
+      "question": "What payment methods do you support?",
+      "answer": "We support 100+ payment methods! This includes all major credit and debit cards (Visa, MasterCard, Amex, RuPay), UPI (Google Pay, PhonePe, Paytm), all major wallets (Paytm, Mobikwik, Freecharge), Net Banking from 50+ banks, EMI options from all major banks, cardless EMI partners like ZestMoney and LazyPay, and even international cards. We keep adding new payment methods regularly.",
+      "keywords": ["payment methods", "upi", "credit card", "debit card", "wallets", "netbanking"]
+    },
+    {
+      "id": "faq010",
+      "category": "payment_methods",
+      "question": "Do you support international payments?",
+      "answer": "Yes! Razorpay supports international card payments in 100+ currencies. You can accept payments from customers worldwide using Visa, MasterCard, and American Express. We handle multi-currency settlements and provide competitive foreign exchange rates. This is perfect if you're a SaaS company, selling digital products, or running an e-commerce store with global customers.",
+      "keywords": ["international", "global", "foreign", "currency", "overseas", "worldwide"]
+    },
+    {
+      "id": "faq011",
+      "category": "payment_methods",
+      "question": "Is UPI free on Razorpay?",
+      "answer": "Yes! UPI transactions on Razorpay have zero platform fee. You only pay the standard 2% transaction fee that applies to all payment methods. UPI is one of the most cost-effective ways to collect payments in India, and we want to make it accessible for all businesses. UPI also has higher success rates and instant confirmation.",
+      "keywords": ["upi", "free", "charges", "cost", "platform fee"]
+    },
+    {
+      "id": "faq012",
+      "category": "settlements",
+      "question": "How quickly do I receive my money?",
+      "answer": "For most businesses, settlements happen on T+2 basis (transaction date plus 2 working days). However, we also offer instant settlements for eligible businesses where you can transfer your balance to your bank account anytime - even on weekends and holidays. With RazorpayX current account integration, you get even faster access to your funds. The exact settlement schedule depends on your business type and risk profile.",
+      "keywords": ["settlement", "payout", "money", "receive", "transfer", "timeline"]
+    },
+    {
+      "id": "faq013",
+      "category": "settlements",
+      "question": "Can I get instant settlements?",
+      "answer": "Yes! Instant settlements are available for eligible businesses. With this feature, you can transfer your available balance to your bank account anytime - 24x7, including weekends and holidays. The money typically reaches your account within minutes. This is especially useful if you need working capital or want faster access to your funds. Eligibility depends on your business profile and transaction history.",
+      "keywords": ["instant", "settlement", "immediate", "fast", "quick", "real-time"]
+    },
+    {
+      "id": "faq014",
+      "category": "security",
+      "question": "Is Razorpay secure?",
+      "answer": "Security is our top priority. Razorpay is PCI-DSS Level 1 compliant - the highest level of payment security certification. We use 256-bit SSL encryption for all transactions, tokenization for card storage, and multi-layer fraud detection systems. We're also certified by Visa and MasterCard. Your customer data is never stored on your servers - we handle all the sensitive information securely. Over 10 million businesses trust us with their payments.",
+      "keywords": ["security", "secure", "safe", "pci", "compliance", "fraud"]
+    },
+    {
+      "id": "faq015",
+      "category": "security",
+      "question": "How do you handle fraud prevention?",
+      "answer": "We have a sophisticated multi-layer fraud detection system powered by machine learning. Our fraud engine analyzes every transaction in real-time for suspicious patterns, device fingerprinting, velocity checks, and geolocation analysis. We also provide you with tools to set up custom risk rules, block suspicious IPs, and enable 3D Secure authentication for cards. Our fraud rates are among the lowest in the industry, and we're constantly updating our systems to stay ahead of new fraud patterns.",
+      "keywords": ["fraud", "prevention", "security", "protection", "risk"]
+    },
+    {
+      "id": "faq016",
+      "category": "features",
+      "question": "Do you provide analytics and reporting?",
+      "answer": "Yes! Our dashboard provides comprehensive analytics and reporting. You can track transaction volumes, success rates, payment method distribution, customer behavior, and revenue trends. We offer customizable reports, downloadable data exports, and real-time dashboards. For advanced needs, we also provide APIs to build custom analytics. You can slice and dice data by date, payment method, product, or any custom parameter you want.",
+      "keywords": ["analytics", "reporting", "dashboard", "insights", "data", "reports"]
+    },
+    {
+      "id": "faq017",
+      "category": "features",
+      "question": "Can I customize the checkout experience?",
+      "answer": "Absolutely! Our checkout is highly customizable. You can add your logo, customize colors to match your brand, choose which payment methods to display, set the order of payment methods, add custom fields, and even control the entire UI if you want. We offer both hosted checkout (we handle the UI) and custom checkout (you build the UI) options. The checkout is also mobile-optimized and works seamlessly across all devices.",
+      "keywords": ["customize", "branding", "checkout", "ui", "design", "theme"]
+    },
+    {
+      "id": "faq018",
+      "category": "features",
+      "question": "Do you support subscriptions and recurring payments?",
+      "answer": "Yes! Our Subscriptions product is built specifically for recurring billing. You can set up daily, weekly, monthly, quarterly, or yearly billing cycles. We support free trials, setup fees, proration, discounts, and add-ons. The system automatically retries failed payments with smart dunning management. You also get a customer portal where your subscribers can update their cards, view invoices, and manage their subscriptions. Perfect for SaaS businesses, membership sites, and subscription boxes.",
+      "keywords": ["subscriptions", "recurring", "billing", "automatic", "saas"]
+    },
+    {
+      "id": "faq019",
+      "category": "features",
+      "question": "Can I send invoices through Razorpay?",
+      "answer": "Yes! Our Invoices product lets you create and send professional GST-compliant invoices in minutes. You can customize invoice templates with your branding, add line items, taxes, and discounts. The system automatically sends payment reminders to customers and tracks invoice status. Customers can pay invoices through any payment method. All invoice data syncs with your accounting software for easy bookkeeping. It's perfect for freelancers, consultants, and service businesses.",
+      "keywords": ["invoices", "invoicing", "gst", "billing", "send invoice"]
+    },
+    {
+      "id": "faq020",
+      "category": "use_cases",
+      "question": "Can Razorpay handle marketplace payments?",
+      "answer": "Yes! Our Route product is built specifically for marketplaces and platforms. It lets you split payments across multiple vendors or partners instantly. You can set up complex commission structures, handle refunds automatically, and settle to multiple bank accounts. Everything is automated - no manual reconciliation needed. Perfect for marketplaces, food delivery platforms, on-demand services, and any business with multiple sellers or service providers.",
+      "keywords": ["marketplace", "split", "route", "vendors", "commission", "multi-vendor"]
+    },
+    {
+      "id": "faq021",
+      "category": "use_cases",
+      "question": "Is Razorpay suitable for SaaS businesses?",
+      "answer": "Absolutely! Razorpay is perfect for SaaS businesses. You get recurring billing with our Subscriptions product, support for free trials and tiered pricing, automatic failed payment retries, dunning management, usage-based billing, proration for plan changes, and customer self-service portal. We also support international payments in 100+ currencies, webhook notifications for real-time updates, and detailed analytics. Many successful Indian SaaS companies use Razorpay to power their billing.",
+      "keywords": ["saas", "software", "subscription", "recurring", "b2b"]
+    },
+    {
+      "id": "faq022",
+      "category": "use_cases",
+      "question": "Can educational institutions use Razorpay?",
+      "answer": "Yes! We're trusted by thousands of schools, colleges, and EdTech companies. You can collect fees online through Payment Links (no website needed), set up installment plans for fee payments, send GST-compliant fee receipts automatically, reconcile payments by student ID or class, and integrate with student management systems. We also support scholarship management and have special pricing for educational institutions. Perfect for schools, coaching centers, universities, and online learning platforms.",
+      "keywords": ["education", "school", "college", "fees", "edtech", "students"]
+    },
+    {
+      "id": "faq023",
+      "category": "support",
+      "question": "What kind of support do you provide?",
+      "answer": "We provide comprehensive support at every step. You get 24/7 email support, phone support during business hours, dedicated integration support from our technical team, extensive documentation with guides and videos, active developer community, and for enterprise clients, dedicated account managers. Our average response time is under 2 hours for support tickets. We also have a detailed knowledge base and FAQ section for self-service support.",
+      "keywords": ["support", "help", "customer service", "assistance", "contact"]
+    },
+    {
+      "id": "faq024",
+      "category": "support",
+      "question": "Do you provide migration support?",
+      "answer": "Yes! We help businesses migrate from other payment gateways to Razorpay seamlessly. Our team assists with integration planning, data migration (where applicable), parallel testing, and smooth cutover. We have successfully migrated thousands of businesses from other gateways. The migration support is free, and we work with your timeline to ensure zero disruption to your business. Many businesses switch to Razorpay for better success rates, pricing, or features.",
+      "keywords": ["migration", "switch", "move", "transfer", "change"]
+    },
+    {
+      "id": "faq025",
+      "category": "account",
+      "question": "How do I get started with Razorpay?",
+      "answer": "Getting started is simple! Just visit razorpay.com and sign up for a free account. You'll get instant access to test mode where you can integrate and test everything. To go live, you'll need to complete KYC by submitting your business documents. The KYC process is quick - most businesses get activated within 24-48 hours. Once activated, you can start accepting real payments immediately. Need help? Our integration team is ready to assist you.",
+      "keywords": ["get started", "sign up", "start", "begin", "onboard", "activate"]
+    },
+    {
+      "id": "faq026",
+      "category": "account",
+      "question": "What documents are needed for KYC?",
+      "answer": "For KYC verification, you'll need your PAN card, business proof (GST certificate, certificate of incorporation, or partnership deed), bank account details with a cancelled cheque or bank statement, and address proof (utility bill or rental agreement). For proprietorships, you need Aadhaar or other ID proof. The exact documents depend on your business type. You can upload everything through our dashboard, and our team typically completes verification within 24-48 hours.",
+      "keywords": ["kyc", "documents", "verification", "requirements", "papers"]
+    },
+    {
+      "id": "faq027",
+      "category": "technical",
+      "question": "Do you provide webhooks for real-time notifications?",
+      "answer": "Yes! Webhooks are a core part of our platform. You get real-time notifications for all important events - payment success, payment failure, refund processed, subscription created, subscription cancelled, settlement processed, and more. You can configure webhook endpoints in your dashboard, and we'll send POST requests with detailed event data. Webhooks are essential for building automated workflows and keeping your system in sync with Razorpay in real-time.",
+      "keywords": ["webhooks", "notifications", "real-time", "events", "callbacks"]
+    },
+    {
+      "id": "faq028",
+      "category": "technical",
+      "question": "What is your API success rate?",
+      "answer": "Razorpay maintains one of the highest payment success rates in India - typically above 90% for cards and even higher for UPI. We achieve this through smart routing (automatically selecting the best payment gateway for each transaction), retry mechanisms, intelligent transaction routing based on historical data, and continuous optimization. We also have 99.9% API uptime. Our infrastructure is built for scale and reliability, processing billions of rupees in transactions every month.",
+      "keywords": ["success rate", "uptime", "reliability", "performance", "availability"]
+    },
+    {
+      "id": "faq029",
+      "category": "advanced",
+      "question": "Do you offer business banking services?",
+      "answer": "Yes! RazorpayX is our business banking platform that offers a zero-balance current account with instant account opening, automated vendor payouts with bulk payment capabilities, corporate cards with granular spending controls, integration with accounting software like Tally and Zoho, scheduled payments and recurring payouts, and detailed transaction tracking. It's designed to streamline all your business banking operations alongside payment collection - a complete financial stack for your business.",
+      "keywords": ["business banking", "razorpayx", "current account", "banking", "corporate cards"]
+    },
+    {
+      "id": "faq030",
+      "category": "advanced",
+      "question": "Can Razorpay handle high transaction volumes?",
+      "answer": "Absolutely! Our infrastructure is built to handle massive scale. We process billions of rupees in transactions every day for thousands of businesses. Whether you're processing 10 transactions a day or 10,000, our systems auto-scale to handle your volume. We have enterprise-grade infrastructure with 99.9% uptime, redundant systems, and load balancing. Some of India's largest e-commerce companies and unicorn startups trust us with their payment processing. We also offer custom enterprise solutions for very high-volume businesses.",
+      "keywords": ["scale", "volume", "high traffic", "enterprise", "capacity", "load"]
+    }
+  ],
+  "pricing_details": {
+    "payment_gateway": {
+      "standard": {
+        "transaction_fee": "2%",
+        "platform_fee_upi": "0%",
+        "setup_fee": "₹0",
+        "annual_fee": "₹0",
+        "international_cards": "3% + ₹2"
+      },
+      "enterprise": {
+        "description": "Custom pricing for high-volume businesses",
+        "benefits": [
+          "Dedicated account manager",
+          "Priority support",
+          "Custom settlement cycles",
+          "Volume-based discounts"
+        ]
+      }
+    },
+    "payment_links": {
+      "fee": "Same as payment gateway (2%)",
+      "features": ["Unlimited links", "No expiry", "Analytics included"]
+    },
+    "subscriptions": {
+      "fee": "Same as payment gateway + ₹5 per transaction",
+      "features": ["Automated billing", "Dunning management", "Customer portal"]
+    },
+    "razorpayx": {
+      "current_account": "Zero balance account",
+      "payout_fee": "Starts at ₹3 per payout",
+      "corporate_cards": "No annual fee"
+    }
+  },
+  "competitive_advantages": [
+    "Highest payment success rates in India (90%+)",
+    "100+ payment methods including all UPI apps",
+    "No setup fees or annual charges",
+    "Instant activation in test mode",
+    "Integration in under 2 hours",
+    "24/7 customer support",
+    "PCI-DSS Level 1 certified",
+    "Trusted by 10+ million businesses",
+    "Complete financial stack (payments + banking)",
+    "Developer-friendly with extensive documentation"
+  ],
+  "target_customers": {
+    "ideal_fit": [
+      "E-commerce stores (fashion, electronics, groceries)",
+      "SaaS companies with subscription models",
+      "EdTech platforms and educational institutions",
+      "HealthTech companies and clinics",
+      "Food delivery and restaurant aggregators",
+      "Travel and hospitality booking platforms",
+      "Gaming and entertainment platforms",
+      "Marketplaces with multiple sellers",
+      "Freelancers and consultants",
+      "Logistics and transportation services"
+    ],
+    "company_size": [
+      "Freelancers and solopreneurs",
+      "Startups and small businesses",
+      "Growing mid-market companies",
+      "Large enterprises and unicorns"
+    ]
+  },
+  "common_use_cases": [
+    {
+      "use_case": "E-commerce checkout",
+      "solution": "Payment Gateway with 100+ payment methods",
+      "benefits": "High success rates, fast checkout, mobile-optimized"
+    },
+    {
+      "use_case": "SaaS recurring billing",
+      "solution": "Subscriptions product with automated billing",
+      "benefits": "Zero manual work, dunning management, customer portal"
+    },
+    {
+      "use_case": "Freelancer invoicing",
+      "solution": "Invoices with payment links",
+      "benefits": "Professional GST invoices, payment reminders, easy tracking"
+    },
+    {
+      "use_case": "School fee collection",
+      "solution": "Payment Links + Smart Collect",
+      "benefits": "No website needed, auto-reconciliation by student ID, installments"
+    },
+    {
+      "use_case": "Marketplace vendor payouts",
+      "solution": "Route for payment splitting",
+      "benefits": "Instant settlements, automated commission, no reconciliation"
+    }
+  ]
+}
