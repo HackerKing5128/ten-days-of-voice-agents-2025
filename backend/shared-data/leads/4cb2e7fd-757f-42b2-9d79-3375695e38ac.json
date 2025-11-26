@@ -1,0 +1,25 @@
+{
+  "lead_id": "4cb2e7fd-757f-42b2-9d79-3375695e38ac",
+  "timestamp": "2025-11-26T20:43:10.405330",
+  "personal_info": {
+    "name": "Arjun",
+    "email": "arjun@techbazaar.in",
+    "company": "TechBazaar",
+    "role": null
+  },
+  "business_context": {
+    "use_case": null,
+    "team_size": null,
+    "timeline": "3 weeks",
+    "pain_points": []
+  },
+  "conversation_summary": "Thanks so much for your time, Arjun! It's great to learn about TechBazaar. I've captured all your details and someone from our team will follow up with you shortly. We'll send over some resources to arjun@techbazaar.in.",
+  "questions_asked": [
+    "EMI options",
+    "Cash on Delivery (COD)",
+    "fraud prevention",
+    "onboarding timeline"
+  ],
+  "interest_level": "high",
+  "status": "completed"
+}

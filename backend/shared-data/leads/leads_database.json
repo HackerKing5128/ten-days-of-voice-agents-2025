@@ -23,50 +23,34 @@
       "status": "completed"
     },
     {
-      "lead_id": "80bd0af1-e997-49d2-9235-07ab8a7f479b",
-      "timestamp": "2025-11-26T11:28:56.477213",
+      "lead_id": "4cb2e7fd-757f-42b2-9d79-3375695e38ac",
+      "timestamp": "2025-11-26T20:43:10.405330",
       "personal_info": {
-        "name": "Rajesh",
-        "email": null,
-        "company": null,
+        "name": "Arjun",
+        "email": "arjun@techbazaar.in",
+        "company": "TechBazaar",
         "role": null
       },
       "business_context": {
         "use_case": null,
         "team_size": null,
-        "timeline": null,
+        "timeline": "3 weeks",
         "pain_points": []
       },
-      "conversation_summary": "",
-      "questions_asked": [],
-      "interest_level": "unknown"
-    },
-    {
-      "lead_id": "86dd3f80-e0e2-4934-941c-4b9d82eba39a",
-      "timestamp": "2025-11-26T12:41:54.406425",
-      "personal_info": {
-        "name": null,
-        "email": null,
-        "company": null,
-        "role": null
-      },
-      "business_context": {
-        "use_case": "e-commerce, electronic items",
-        "team_size": null,
-        "timeline": null,
-        "pain_points": []
-      },
-      "conversation_summary": "",
+      "conversation_summary": "Thanks so much for your time, Arjun! It's great to learn about TechBazaar. I've captured all your details and someone from our team will follow up with you shortly. We'll send over some resources to arjun@techbazaar.in.",
       "questions_asked": [
-        "payment gateway",
-        "ecommerce payment gateway"
+        "EMI options",
+        "Cash on Delivery (COD)",
+        "fraud prevention",
+        "onboarding timeline"
       ],
-      "interest_level": "unknown"
+      "interest_level": "high",
+      "status": "completed"
     }
   ],
   "metadata": {
-    "total_leads": 3,
-    "last_updated": "2025-11-26T12:43:55.979179",
+    "total_leads": 2,
+    "last_updated": "2025-11-26T20:52:05.979521",
     "version": "1.0"
   }
 }
