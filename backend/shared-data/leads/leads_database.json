@@ -1,8 +1,31 @@
 {
-  "leads": [],
+  "leads": [
+    {
+      "lead_id": "144cef8f-bd4f-4e3c-aadd-743909529e20",
+      "timestamp": "2025-11-26T10:43:53.859037",
+      "personal_info": {
+        "name": "Nakul",
+        "email": "nakul@fashionhub.com",
+        "company": "FashionHub",
+        "role": null
+      },
+      "business_context": {
+        "use_case": null,
+        "team_size": null,
+        "timeline": null,
+        "pain_points": []
+      },
+      "conversation_summary": "Thanks so much for your time, Nakul! It's great to learn about FashionHub. I've captured all your details and someone from our team will follow up with you shortly. We'll send over some resources to nakul@fashionhub.com.",
+      "questions_asked": [
+        "payment gateway success rates pricing"
+      ],
+      "interest_level": "low",
+      "status": "completed"
+    }
+  ],
   "metadata": {
-    "total_leads": 0,
-    "last_updated": null,
+    "total_leads": 1,
+    "last_updated": "2025-11-26T10:51:34.026875",
     "version": "1.0"
   }
 }
