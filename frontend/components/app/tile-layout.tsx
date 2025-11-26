@@ -106,7 +106,7 @@ export function TileLayout({ chatOpen }: TileLayoutProps) {
           >
             <AnimatePresence mode="popLayout">
               {!isAvatar && (
-                // Audio Agent
+                // Audio Agent - Zoya Avatar
                 <MotionContainer
                   key="agent"
                   layoutId="agent"
@@ -123,10 +123,33 @@ export function TileLayout({ chatOpen }: TileLayoutProps) {
                     delay: animationDelay,
                   }}
                   className={cn(
-                    'bg-background aspect-square h-[90px] rounded-md border border-transparent transition-[border,drop-shadow]',
-                    chatOpen && 'border-input/50 drop-shadow-lg/10 delay-200'
+                    'bg-linear-to-br from-primary/10 to-primary/5 aspect-square h-[90px] rounded-full border-2 border-primary/30 transition-all',
+                    chatOpen && 'drop-shadow-lg/10 delay-200',
+                    !chatOpen && 'zoya-pulse'
                   )}
                 >
+                  {/* Zoya Z icon in center when not chatting */}
+                  {!chatOpen && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <svg
+                        width="32"
+                        height="32"
+                        viewBox="0 0 40 40"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="text-primary opacity-30"
+                      >
+                        <path
+                          d="M8 10H32L12 30H32"
+                          stroke="currentColor"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          fill="none"
+                        />
+                      </svg>
+                    </div>
+                  )}
                   <BarVisualizer
                     barCount={5}
                     state={agentState}
@@ -136,9 +159,9 @@ export function TileLayout({ chatOpen }: TileLayoutProps) {
                   >
                     <span
                       className={cn([
-                        'bg-muted min-h-2.5 w-2.5 rounded-full',
+                        'bg-primary/30 min-h-2.5 w-2.5 rounded-full',
                         'origin-center transition-colors duration-250 ease-linear',
-                        'data-[lk-highlighted=true]:bg-foreground data-[lk-muted=true]:bg-muted',
+                        'data-[lk-highlighted=true]:bg-primary data-[lk-muted=true]:bg-primary/20',
                       ])}
                     />
                   </BarVisualizer>

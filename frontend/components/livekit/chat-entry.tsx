@@ -43,6 +43,9 @@ export const ChatEntry = ({
         )}
       >
         {name && <strong>{name}</strong>}
+        {messageOrigin === 'remote' && (
+          <span className="text-primary font-medium text-xs">Zoya</span>
+        )}
         <span className="font-mono text-xs opacity-0 transition-opacity ease-linear group-hover:opacity-100">
           {hasBeenEdited && '*'}
           {time.toLocaleTimeString(locale, { timeStyle: 'short' })}
@@ -51,7 +54,9 @@ export const ChatEntry = ({
       <span
         className={cn(
           'max-w-4/5 rounded-[20px]',
-          messageOrigin === 'local' ? 'bg-muted ml-auto p-2' : 'mr-auto'
+          messageOrigin === 'local' 
+            ? 'bg-muted ml-auto p-2' 
+            : 'mr-auto border-l-2 border-primary/40 pl-3 py-1'
         )}
       >
         {message}

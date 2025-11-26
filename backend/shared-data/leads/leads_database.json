@@ -21,11 +21,52 @@
       ],
       "interest_level": "low",
       "status": "completed"
+    },
+    {
+      "lead_id": "80bd0af1-e997-49d2-9235-07ab8a7f479b",
+      "timestamp": "2025-11-26T11:28:56.477213",
+      "personal_info": {
+        "name": "Rajesh",
+        "email": null,
+        "company": null,
+        "role": null
+      },
+      "business_context": {
+        "use_case": null,
+        "team_size": null,
+        "timeline": null,
+        "pain_points": []
+      },
+      "conversation_summary": "",
+      "questions_asked": [],
+      "interest_level": "unknown"
+    },
+    {
+      "lead_id": "86dd3f80-e0e2-4934-941c-4b9d82eba39a",
+      "timestamp": "2025-11-26T12:41:54.406425",
+      "personal_info": {
+        "name": null,
+        "email": null,
+        "company": null,
+        "role": null
+      },
+      "business_context": {
+        "use_case": "e-commerce, electronic items",
+        "team_size": null,
+        "timeline": null,
+        "pain_points": []
+      },
+      "conversation_summary": "",
+      "questions_asked": [
+        "payment gateway",
+        "ecommerce payment gateway"
+      ],
+      "interest_level": "unknown"
     }
   ],
   "metadata": {
-    "total_leads": 1,
-    "last_updated": "2025-11-26T10:51:34.026875",
+    "total_leads": 3,
+    "last_updated": "2025-11-26T12:43:55.979179",
     "version": "1.0"
   }
 }

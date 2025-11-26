@@ -36,7 +36,7 @@ const BOTTOM_VIEW_MOTION_PROPS = {
   transition: {
     duration: 0.3,
     delay: 0.5,
-    ease: 'easeOut',
+    ease: 'easeOut' as const,
   },
 };
 
@@ -72,6 +72,7 @@ export const SessionView = ({
   const messages = useChatMessages();
   const [chatOpen, setChatOpen] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const hasAutoOpenedRef = useRef(false);
 
   const controls: ControlBarControls = {
     leave: true,
@@ -81,14 +82,28 @@ export const SessionView = ({
     screenShare: appConfig.supportsVideoInput,
   };
 
+  // Auto-open chat when first message arrives (better UX for voice agents)
   useEffect(() => {
-    const lastMessage = messages.at(-1);
-    const lastMessageIsLocal = lastMessage?.from?.isLocal === true;
+    if (messages.length > 0 && !hasAutoOpenedRef.current) {
+      hasAutoOpenedRef.current = true;
+      setChatOpen(true);
+    }
+  }, [messages.length]);
 
-    if (scrollAreaRef.current && lastMessageIsLocal) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+  // Auto-scroll to bottom when new messages arrive (both local and agent messages)
+  useEffect(() => {
+    if (scrollAreaRef.current && messages.length > 0) {
+      // Use setTimeout to ensure DOM has updated
+      setTimeout(() => {
+        if (scrollAreaRef.current) {
+          scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+        }
+      }, 50);
     }
   }, [messages]);
+
+  // Create a key that changes when message content changes
+  const messagesKey = messages.map(m => `${m.id}:${m.message.length}`).join('|');
 
   return (
     <section className="bg-background relative z-10 h-full w-full overflow-hidden" {...props}>
@@ -102,9 +117,10 @@ export const SessionView = ({
         <Fade top className="absolute inset-x-4 top-0 h-40" />
         <ScrollArea ref={scrollAreaRef} className="px-4 pt-40 pb-[150px] md:px-6 md:pb-[180px]">
           <ChatTranscript
+            key={messagesKey}
             hidden={!chatOpen}
             messages={messages}
-            className="mx-auto max-w-2xl space-y-3 transition-opacity duration-300 ease-out"
+            className="mx-auto max-w-2xl space-y-3"
           />
         </ScrollArea>
       </div>

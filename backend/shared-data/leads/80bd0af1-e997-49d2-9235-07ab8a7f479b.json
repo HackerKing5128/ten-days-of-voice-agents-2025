@@ -1,0 +1,19 @@
+{
+  "lead_id": "80bd0af1-e997-49d2-9235-07ab8a7f479b",
+  "timestamp": "2025-11-26T11:28:56.477213",
+  "personal_info": {
+    "name": "Rajesh",
+    "email": null,
+    "company": null,
+    "role": null
+  },
+  "business_context": {
+    "use_case": null,
+    "team_size": null,
+    "timeline": null,
+    "pain_points": []
+  },
+  "conversation_summary": "",
+  "questions_asked": [],
+  "interest_level": "unknown"
+}

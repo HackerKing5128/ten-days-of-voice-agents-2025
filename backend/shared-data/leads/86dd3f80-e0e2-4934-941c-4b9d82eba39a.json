@@ -1,0 +1,22 @@
+{
+  "lead_id": "86dd3f80-e0e2-4934-941c-4b9d82eba39a",
+  "timestamp": "2025-11-26T12:41:54.406425",
+  "personal_info": {
+    "name": null,
+    "email": null,
+    "company": null,
+    "role": null
+  },
+  "business_context": {
+    "use_case": "e-commerce, electronic items",
+    "team_size": null,
+    "timeline": null,
+    "pain_points": []
+  },
+  "conversation_summary": "",
+  "questions_asked": [
+    "payment gateway",
+    "ecommerce payment gateway"
+  ],
+  "interest_level": "unknown"
+}

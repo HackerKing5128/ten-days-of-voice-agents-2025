@@ -16,6 +16,12 @@ We just launched **Murf Falcon** – the consistently fastest TTS API, and you'r
 
 **Zoya** - An energetic and efficient AI SDR (Sales Development Representative) for Razorpay, India's leading payment solutions company.
 
+### 🖥️ Landing Page
+
+![Zoya - Razorpay SDR Landing Page](./assets/zoya-landing-page.png)
+
+*Modern, Razorpay-themed UI with real-time voice chat capabilities*
+
 ## ✨ Features Implemented
 
 ### Primary Goal (MVP) ✅
