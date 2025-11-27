@@ -1,0 +1,244 @@
+{
+  "items": [
+    {
+      "id": "bread-001",
+      "name": "Whole Wheat Bread",
+      "category": "groceries",
+      "price": 3.99,
+      "unit": "loaf",
+      "tags": ["vegan", "healthy", "bakery"]
+    },
+    {
+      "id": "bread-002",
+      "name": "White Sandwich Bread",
+      "category": "groceries",
+      "price": 2.99,
+      "unit": "loaf",
+      "tags": ["vegan", "bakery"]
+    },
+    {
+      "id": "milk-001",
+      "name": "Whole Milk",
+      "category": "groceries",
+      "price": 4.99,
+      "unit": "gallon",
+      "tags": ["dairy", "fresh"]
+    },
+    {
+      "id": "milk-002",
+      "name": "Oat Milk",
+      "category": "groceries",
+      "price": 5.49,
+      "unit": "carton",
+      "tags": ["vegan", "dairy-free", "healthy"]
+    },
+    {
+      "id": "eggs-001",
+      "name": "Large Eggs",
+      "category": "groceries",
+      "price": 5.99,
+      "unit": "dozen",
+      "tags": ["fresh", "protein"]
+    },
+    {
+      "id": "butter-001",
+      "name": "Salted Butter",
+      "category": "groceries",
+      "price": 4.49,
+      "unit": "pack",
+      "tags": ["dairy"]
+    },
+    {
+      "id": "cheese-001",
+      "name": "Cheddar Cheese",
+      "category": "groceries",
+      "price": 6.99,
+      "unit": "block",
+      "tags": ["dairy", "cheese"]
+    },
+    {
+      "id": "cheese-002",
+      "name": "Parmesan Cheese",
+      "category": "groceries",
+      "price": 7.99,
+      "unit": "wedge",
+      "tags": ["dairy", "cheese", "italian"]
+    },
+    {
+      "id": "peanut-butter-001",
+      "name": "Creamy Peanut Butter",
+      "category": "groceries",
+      "price": 6.49,
+      "unit": "jar",
+      "tags": ["vegan", "protein", "spread"]
+    },
+    {
+      "id": "jelly-001",
+      "name": "Strawberry Jelly",
+      "category": "groceries",
+      "price": 4.29,
+      "unit": "jar",
+      "tags": ["vegan", "spread", "sweet"]
+    },
+    {
+      "id": "pasta-001",
+      "name": "Spaghetti Pasta",
+      "category": "groceries",
+      "price": 2.49,
+      "unit": "box",
+      "tags": ["vegan", "italian", "dried"]
+    },
+    {
+      "id": "pasta-002",
+      "name": "Penne Pasta",
+      "category": "groceries",
+      "price": 2.49,
+      "unit": "box",
+      "tags": ["vegan", "italian", "dried"]
+    },
+    {
+      "id": "sauce-001",
+      "name": "Marinara Sauce",
+      "category": "groceries",
+      "price": 4.99,
+      "unit": "jar",
+      "tags": ["vegan", "italian", "sauce"]
+    },
+    {
+      "id": "sauce-002",
+      "name": "Alfredo Sauce",
+      "category": "groceries",
+      "price": 5.49,
+      "unit": "jar",
+      "tags": ["dairy", "italian", "sauce"]
+    },
+    {
+      "id": "chicken-001",
+      "name": "Chicken Breast",
+      "category": "groceries",
+      "price": 9.99,
+      "unit": "lb",
+      "tags": ["protein", "meat", "fresh"]
+    },
+    {
+      "id": "banana-001",
+      "name": "Bananas",
+      "category": "groceries",
+      "price": 1.29,
+      "unit": "bunch",
+      "tags": ["vegan", "fruit", "fresh", "healthy"]
+    },
+    {
+      "id": "apple-001",
+      "name": "Red Apples",
+      "category": "groceries",
+      "price": 4.99,
+      "unit": "bag",
+      "tags": ["vegan", "fruit", "fresh", "healthy"]
+    },
+    {
+      "id": "orange-001",
+      "name": "Navel Oranges",
+      "category": "groceries",
+      "price": 5.99,
+      "unit": "bag",
+      "tags": ["vegan", "fruit", "fresh", "healthy"]
+    },
+    {
+      "id": "chips-001",
+      "name": "Classic Potato Chips",
+      "category": "snacks",
+      "price": 3.99,
+      "unit": "bag",
+      "tags": ["vegan", "salty"]
+    },
+    {
+      "id": "chips-002",
+      "name": "Tortilla Chips",
+      "category": "snacks",
+      "price": 4.49,
+      "unit": "bag",
+      "tags": ["vegan", "salty", "mexican"]
+    },
+    {
+      "id": "cookies-001",
+      "name": "Chocolate Chip Cookies",
+      "category": "snacks",
+      "price": 4.99,
+      "unit": "pack",
+      "tags": ["sweet", "dessert"]
+    },
+    {
+      "id": "crackers-001",
+      "name": "Whole Grain Crackers",
+      "category": "snacks",
+      "price": 3.49,
+      "unit": "box",
+      "tags": ["vegan", "healthy"]
+    },
+    {
+      "id": "nuts-001",
+      "name": "Mixed Nuts",
+      "category": "snacks",
+      "price": 8.99,
+      "unit": "can",
+      "tags": ["vegan", "healthy", "protein"]
+    },
+    {
+      "id": "pizza-001",
+      "name": "Pepperoni Pizza",
+      "category": "prepared",
+      "price": 12.99,
+      "unit": "large",
+      "tags": ["meat", "italian", "hot"]
+    },
+    {
+      "id": "pizza-002",
+      "name": "Margherita Pizza",
+      "category": "prepared",
+      "price": 11.99,
+      "unit": "large",
+      "tags": ["vegetarian", "italian", "hot"]
+    },
+    {
+      "id": "sandwich-001",
+      "name": "Turkey Club Sandwich",
+      "category": "prepared",
+      "price": 8.99,
+      "unit": "each",
+      "tags": ["meat", "fresh"]
+    },
+    {
+      "id": "sandwich-002",
+      "name": "Veggie Wrap",
+      "category": "prepared",
+      "price": 7.99,
+      "unit": "each",
+      "tags": ["vegan", "healthy", "fresh"]
+    },
+    {
+      "id": "salad-001",
+      "name": "Caesar Salad",
+      "category": "prepared",
+      "price": 9.99,
+      "unit": "bowl",
+      "tags": ["healthy", "fresh"]
+    },
+    {
+      "id": "coffee-001",
+      "name": "Ground Coffee",
+      "category": "groceries",
+      "price": 10.99,
+      "unit": "bag",
+      "tags": ["vegan", "beverage"]
+    },
+    {
+      "id": "juice-001",
+      "name": "Orange Juice",
+      "category": "groceries",
+      "price": 5.99,
+      "unit": "carton",
+      "tags": ["vegan", "beverage", "fresh"]
+    }
+  ]
+}

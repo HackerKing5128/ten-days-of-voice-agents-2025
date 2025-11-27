@@ -1,0 +1,60 @@
+{
+  "recipes": {
+    "peanut butter sandwich": {
+      "items": ["bread-001", "peanut-butter-001"],
+      "description": "a classic peanut butter sandwich"
+    },
+    "pb and j sandwich": {
+      "items": ["bread-001", "peanut-butter-001", "jelly-001"],
+      "description": "a peanut butter and jelly sandwich"
+    },
+    "pbj": {
+      "items": ["bread-001", "peanut-butter-001", "jelly-001"],
+      "description": "a peanut butter and jelly sandwich"
+    },
+    "grilled cheese": {
+      "items": ["bread-002", "butter-001", "cheese-001"],
+      "description": "a grilled cheese sandwich"
+    },
+    "pasta": {
+      "items": ["pasta-001", "sauce-001"],
+      "description": "simple pasta with marinara"
+    },
+    "spaghetti": {
+      "items": ["pasta-001", "sauce-001", "cheese-002"],
+      "description": "spaghetti with marinara and parmesan"
+    },
+    "pasta for two": {
+      "items": ["pasta-001", "pasta-001", "sauce-001", "cheese-002"],
+      "description": "pasta for two people"
+    },
+    "alfredo pasta": {
+      "items": ["pasta-002", "sauce-002", "cheese-002"],
+      "description": "creamy alfredo pasta"
+    },
+    "breakfast": {
+      "items": ["eggs-001", "bread-001", "butter-001", "juice-001"],
+      "description": "a simple breakfast"
+    },
+    "coffee and cookies": {
+      "items": ["coffee-001", "cookies-001"],
+      "description": "coffee break with cookies"
+    },
+    "fruit bowl": {
+      "items": ["banana-001", "apple-001", "orange-001"],
+      "description": "a fresh fruit bowl"
+    },
+    "movie snacks": {
+      "items": ["chips-001", "cookies-001"],
+      "description": "snacks for movie night"
+    },
+    "party snacks": {
+      "items": ["chips-001", "chips-002", "crackers-001", "nuts-001"],
+      "description": "assorted snacks for a party"
+    },
+    "chicken dinner": {
+      "items": ["chicken-001", "pasta-002", "sauce-002"],
+      "description": "chicken with alfredo pasta"
+    }
+  }
+}
