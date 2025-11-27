@@ -73,6 +73,13 @@ export const SessionView = ({
   const [chatOpen, setChatOpen] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
+  // Auto-open chat when first message arrives
+  useEffect(() => {
+    if (messages.length > 0 && !chatOpen) {
+      setChatOpen(true);
+    }
+  }, [messages.length, chatOpen]);
+
   const controls: ControlBarControls = {
     leave: true,
     microphone: true,
@@ -82,10 +89,8 @@ export const SessionView = ({
   };
 
   useEffect(() => {
-    const lastMessage = messages.at(-1);
-    const lastMessageIsLocal = lastMessage?.from?.isLocal === true;
-
-    if (scrollAreaRef.current && lastMessageIsLocal) {
+    // Auto-scroll on any new message (not just local)
+    if (scrollAreaRef.current && messages.length > 0) {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
   }, [messages]);

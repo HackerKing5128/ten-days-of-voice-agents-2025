@@ -106,7 +106,7 @@ export function TileLayout({ chatOpen }: TileLayoutProps) {
           >
             <AnimatePresence mode="popLayout">
               {!isAvatar && (
-                // Audio Agent
+                // Audio Agent - SecureBank Branded
                 <MotionContainer
                   key="agent"
                   layoutId="agent"
@@ -123,25 +123,32 @@ export function TileLayout({ chatOpen }: TileLayoutProps) {
                     delay: animationDelay,
                   }}
                   className={cn(
-                    'bg-background aspect-square h-[90px] rounded-md border border-transparent transition-[border,drop-shadow]',
-                    chatOpen && 'border-input/50 drop-shadow-lg/10 delay-200'
+                    'relative aspect-square h-[90px] rounded-2xl transition-[border,drop-shadow] overflow-hidden',
+                    chatOpen 
+                      ? 'border border-blue-500/30 drop-shadow-lg bg-gradient-to-br from-slate-800 to-slate-900' 
+                      : 'border-2 border-blue-500/50 bg-gradient-to-br from-slate-800/90 to-slate-900/90 shadow-2xl shadow-blue-500/20'
                   )}
                 >
+                  {/* Visualizer */}
                   <BarVisualizer
                     barCount={5}
                     state={agentState}
                     options={{ minHeight: 5 }}
                     trackRef={agentAudioTrack}
-                    className={cn('flex h-full items-center justify-center gap-1')}
+                    className={cn('flex h-full items-center justify-center gap-1.5')}
                   >
                     <span
                       className={cn([
-                        'bg-muted min-h-2.5 w-2.5 rounded-full',
+                        'min-h-3 w-3 rounded-full',
                         'origin-center transition-colors duration-250 ease-linear',
-                        'data-[lk-highlighted=true]:bg-foreground data-[lk-muted=true]:bg-muted',
+                        'bg-blue-500/40',
+                        'data-[lk-highlighted=true]:bg-blue-400 data-[lk-muted=true]:bg-slate-600',
                       ])}
                     />
                   </BarVisualizer>
+                  
+                  {/* Subtle glow effect */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-500/5 to-transparent pointer-events-none" />
                 </MotionContainer>
               )}
 

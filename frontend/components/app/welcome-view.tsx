@@ -1,18 +1,55 @@
 import { Button } from '@/components/livekit/button';
 
-function WelcomeImage() {
+// Phone icon for incoming call
+function PhoneIcon({ className }: { className?: string }) {
   return (
     <svg
-      width="64"
-      height="64"
-      viewBox="0 0 64 64"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="text-fg0 mb-4 size-16"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
     >
       <path
-        d="M15 24V40C15 40.7957 14.6839 41.5587 14.1213 42.1213C13.5587 42.6839 12.7956 43 12 43C11.2044 43 10.4413 42.6839 9.87868 42.1213C9.31607 41.5587 9 40.7957 9 40V24C9 23.2044 9.31607 22.4413 9.87868 21.8787C10.4413 21.3161 11.2044 21 12 21C12.7956 21 13.5587 21.3161 14.1213 21.8787C14.6839 22.4413 15 23.2044 15 24ZM22 5C21.2044 5 20.4413 5.31607 19.8787 5.87868C19.3161 6.44129 19 7.20435 19 8V56C19 56.7957 19.3161 57.5587 19.8787 58.1213C20.4413 58.6839 21.2044 59 22 59C22.7956 59 23.5587 58.6839 24.1213 58.1213C24.6839 57.5587 25 56.7957 25 56V8C25 7.20435 24.6839 6.44129 24.1213 5.87868C23.5587 5.31607 22.7956 5 22 5ZM32 13C31.2044 13 30.4413 13.3161 29.8787 13.8787C29.3161 14.4413 29 15.2044 29 16V48C29 48.7957 29.3161 49.5587 29.8787 50.1213C30.4413 50.6839 31.2044 51 32 51C32.7956 51 33.5587 50.6839 34.1213 50.1213C34.6839 49.5587 35 48.7957 35 48V16C35 15.2044 34.6839 14.4413 34.1213 13.8787C33.5587 13.3161 32.7956 13 32 13ZM42 21C41.2043 21 40.4413 21.3161 39.8787 21.8787C39.3161 22.4413 39 23.2044 39 24V40C39 40.7957 39.3161 41.5587 39.8787 42.1213C40.4413 42.6839 41.2043 43 42 43C42.7957 43 43.5587 42.6839 44.1213 42.1213C44.6839 41.5587 45 40.7957 45 40V24C45 23.2044 44.6839 22.4413 44.1213 21.8787C43.5587 21.3161 42.7957 21 42 21ZM52 17C51.2043 17 50.4413 17.3161 49.8787 17.8787C49.3161 18.4413 49 19.2044 49 20V44C49 44.7957 49.3161 45.5587 49.8787 46.1213C50.4413 46.6839 51.2043 47 52 47C52.7957 47 53.5587 46.6839 54.1213 46.1213C54.6839 45.5587 55 44.7957 55 44V20C55 19.2044 54.6839 18.4413 54.1213 17.8787C53.5587 17.3161 52.7957 17 52 17Z"
-        fill="currentColor"
+        fillRule="evenodd"
+        d="M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 006.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 011.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 01-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+
+// Shield icon for security
+function ShieldIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+    >
+      <path
+        fillRule="evenodd"
+        d="M12.516 2.17a.75.75 0 00-1.032 0 11.209 11.209 0 01-7.877 3.08.75.75 0 00-.722.515A12.74 12.74 0 002.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 00.374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 00-.722-.516 11.209 11.209 0 01-7.877-3.08z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+
+// Bank building icon
+function BankIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+    >
+      <path d="M11.584 2.376a.75.75 0 01.832 0l9 6a.75.75 0 01-.832 1.248L12 3.901 3.416 9.624a.75.75 0 01-.832-1.248l9-6z" />
+      <path
+        fillRule="evenodd"
+        d="M20.25 10.332v9.918H21a.75.75 0 010 1.5H3a.75.75 0 010-1.5h.75v-9.918a.75.75 0 01.634-.74A49.109 49.109 0 0112 9c2.59 0 5.134.202 7.616.592a.75.75 0 01.634.74zm-7.5 2.418a.75.75 0 00-1.5 0v6.75a.75.75 0 001.5 0v-6.75zm3-.75a.75.75 0 01.75.75v6.75a.75.75 0 01-1.5 0v-6.75a.75.75 0 01.75-.75zM9 12.75a.75.75 0 00-1.5 0v6.75a.75.75 0 001.5 0v-6.75z"
+        clipRule="evenodd"
       />
     </svg>
   );
@@ -29,32 +66,92 @@ export const WelcomeView = ({
   ref,
 }: React.ComponentProps<'div'> & WelcomeViewProps) => {
   return (
-    <div ref={ref}>
+    <div ref={ref} className="w-full max-w-md mx-auto">
       <section className="bg-background flex flex-col items-center justify-center text-center">
-        <WelcomeImage />
+        {/* Incoming Call Header */}
+        <div className="flex items-center gap-2 mb-6">
+          <div className="relative">
+            <PhoneIcon className="w-5 h-5 text-emerald-500 animate-pulse" />
+          </div>
+          <span className="text-emerald-500 font-semibold tracking-wide text-sm uppercase">
+            Incoming Call
+          </span>
+        </div>
 
-        <p className="text-foreground max-w-prose pt-1 leading-6 font-medium">
-          Chat live with your voice AI agent
-        </p>
+        {/* Call Card */}
+        <div className="relative mb-8">
+          {/* Pulsing ring animation */}
+          <div className="absolute inset-0 rounded-3xl bg-blue-500/20 animate-ping" style={{ animationDuration: '2s' }} />
+          <div className="absolute inset-0 rounded-3xl bg-blue-500/10 animate-pulse" />
+          
+          {/* Card content */}
+          <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-3xl p-8 shadow-2xl">
+            {/* Bank logo area */}
+            <div className="flex items-center justify-center mb-4">
+              <div className="bg-blue-600 p-3 rounded-2xl">
+                <BankIcon className="w-10 h-10 text-white" />
+              </div>
+            </div>
+            
+            {/* Bank name */}
+            <h1 className="text-2xl font-bold text-white mb-1">
+              SecureBank
+            </h1>
+            <p className="text-blue-400 font-medium mb-4">
+              Fraud Protection Department
+            </p>
+            
+            {/* Divider */}
+            <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-slate-600 to-transparent mx-auto mb-4" />
+            
+            {/* Call reason */}
+            <p className="text-slate-400 text-sm">
+              Calling about suspicious activity on your account
+            </p>
+          </div>
+        </div>
 
-        <Button variant="primary" size="lg" onClick={onStartCall} className="mt-6 w-64 font-mono">
-          {startButtonText}
+        {/* Action Buttons */}
+        <div className="flex gap-4 mb-8">
+          {/* Decline button (optional - just visual) */}
+          <button
+            className="w-16 h-16 rounded-full bg-red-500/20 border-2 border-red-500 flex items-center justify-center hover:bg-red-500/30 transition-all group"
+            onClick={() => {}}
+            title="Decline"
+          >
+            <PhoneIcon className="w-6 h-6 text-red-500 rotate-[135deg] group-hover:scale-110 transition-transform" />
+          </button>
+          
+          {/* Answer button */}
+          <button
+            className="w-16 h-16 rounded-full bg-emerald-500 flex items-center justify-center hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/30 group animate-pulse"
+            onClick={onStartCall}
+            title="Answer Call"
+            style={{ animationDuration: '2s' }}
+          >
+            <PhoneIcon className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+          </button>
+        </div>
+
+        {/* Alternative text button */}
+        <Button 
+          variant="primary" 
+          size="lg" 
+          onClick={onStartCall} 
+          className="w-64 font-mono bg-emerald-600 hover:bg-emerald-500 border-emerald-500"
+        >
+          {startButtonText || "Answer Call"}
         </Button>
       </section>
 
-      <div className="fixed bottom-5 left-0 flex w-full items-center justify-center">
-        <p className="text-muted-foreground max-w-prose pt-1 text-xs leading-5 font-normal text-pretty md:text-sm">
-          Need help getting set up? Check out the{' '}
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://docs.livekit.io/agents/start/voice-ai/"
-            className="underline"
-          >
-            Voice AI quickstart
-          </a>
-          .
-        </p>
+      {/* Security Disclaimer */}
+      <div className="fixed bottom-5 left-0 flex w-full items-center justify-center px-4">
+        <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 rounded-lg px-4 py-2">
+          <ShieldIcon className="w-4 h-4 text-amber-500 flex-shrink-0" />
+          <p className="text-amber-500/90 text-xs leading-5 font-medium">
+            SecureBank will <strong>NEVER</strong> ask for your PIN, password, or full card number
+          </p>
+        </div>
       </div>
     </div>
   );
