@@ -1,214 +1,156 @@
-# AI Voice Agents Challenge - Starter Repository
+# Day 6 – Fraud Alert Voice Agent 🏦
 
-Welcome to the **AI Voice Agents Challenge** by [murf.ai](https://murf.ai)!
+> Part of the **AI Voice Agents Challenge** by [Murf AI](https://murf.ai)
 
-## About the Challenge
+![SecureBank Fraud Alert - Incoming Call UI](assets/day6-landing-page.png)
 
-We just launched **Murf Falcon** – the consistently fastest TTS API, and you're going to be among the first to test it out in ways never thought before!
+## 🎯 What I Built
 
-**Build 10 AI Voice Agents over the course of 10 Days** along with help from our devs and the community champs, and win rewards!
+**Meet Alex** — A Fraud Alert Voice Agent for SecureBank that simulates real bank fraud detection calls!
 
-### How It Works
+Alex initiates outbound calls to customers about suspicious transactions, verifies their identity, and updates the fraud case status in real-time.
 
-- One task to be provided everyday along with a GitHub repo for reference
-- Build a voice agent with specific personas and skills
-- Post on GitHub and share with the world on LinkedIn!
+### ✨ Features
 
-## Repository Structure
+- 📞 **Incoming Call UI** — Realistic "Answer/Decline" call interface
+- 🔐 **Identity Verification** — Security questions before revealing details
+- 💳 **Transaction Details** — Reads merchant, amount, location, time
+- 🗄️ **SQLite Database** — Persists fraud cases with real-time updates
+- 🎙️ **Real-time Chat** — Auto-opens transcript when agent speaks
 
-This is a **monorepo** that contains both the backend and frontend for building voice agent applications. It's designed to be your starting point for each day's challenge task.
+### 📊 Three Scenarios Handled
 
-```
-falcon-tdova-nov25-livekit/
-├── backend/          # LiveKit Agents backend with Murf Falcon TTS
-├── frontend/         # React/Next.js frontend for voice interaction
-├── start_app.sh      # Convenience script to start all services
-└── README.md         # This file
-```
-
-### Backend
-
-The backend is based on [LiveKit's agent-starter-python](https://github.com/livekit-examples/agent-starter-python) with modifications to integrate **Murf Falcon TTS** for ultra-fast, high-quality voice synthesis.
-
-**Features:**
-
-- Complete voice AI agent framework using LiveKit Agents
-- Murf Falcon TTS integration for fastest text-to-speech
-- LiveKit Turn Detector for contextually-aware speaker detection
-- Background voice cancellation
-- Integrated metrics and logging
-- Complete test suite with evaluation framework
-- Production-ready Dockerfile
-
-[→ Backend Documentation](./backend/README.md)
-
-### Frontend
-
-The frontend is based on [LiveKit's agent-starter-react](https://github.com/livekit-examples/agent-starter-react), providing a modern, beautiful UI for interacting with your voice agents.
-
-**Features:**
-
-- Real-time voice interaction with LiveKit Agents
-- Camera video streaming support
-- Screen sharing capabilities
-- Audio visualization and level monitoring
-- Light/dark theme switching
-- Highly customizable branding and UI
-
-[→ Frontend Documentation](./frontend/README.md)
-
-## Quick Start
-
-### Prerequisites
-
-Make sure you have the following installed:
-
-- Python 3.9+ with [uv](https://docs.astral.sh/uv/) package manager
-- Node.js 18+ with pnpm
-- [LiveKit CLI](https://docs.livekit.io/home/cli/cli-setup) (optional but recommended)
-- [LiveKit Server](https://docs.livekit.io/home/self-hosting/local/) for local development
-
-### 1. Clone the Repository
-
-```bash
-git clone <your-repo-url>
-cd falcon-tdova-nov25-livekit
-```
-
-### 2. Backend Setup
-
-```bash
-cd backend
-
-# Install dependencies
-uv sync
-
-# Copy environment file and configure
-cp .env.example .env.local
-
-# Edit .env.local with your credentials:
-# - LIVEKIT_URL
-# - LIVEKIT_API_KEY
-# - LIVEKIT_API_SECRET
-# - MURF_API_KEY (for Falcon TTS)
-# - GOOGLE_API_KEY (for Gemini LLM)
-# - DEEPGRAM_API_KEY (for Deepgram STT)
-
-# Download required models
-uv run python src/agent.py download-files
-```
-
-For LiveKit Cloud users, you can automatically populate credentials:
-
-```bash
-lk cloud auth
-lk app env -w -d .env.local
-```
-
-### 3. Frontend Setup
-
-```bash
-cd frontend
-
-# Install dependencies
-pnpm install
-
-# Copy environment file and configure
-cp .env.example .env.local
-
-# Edit .env.local with the same LiveKit credentials
-```
-
-### 4. Run the Application
-
-#### Install livekit server
-
-```bash
-brew install livekit
-```
-
-You have two options:
-
-#### Option A: Use the convenience script (runs everything)
-
-```bash
-# From the root directory
-chmod +x start_app.sh
-./start_app.sh
-```
-
-This will start:
-
-- LiveKit Server (in dev mode)
-- Backend agent (listening for connections)
-- Frontend app (at http://localhost:3000)
-
-#### Option B: Run services individually
-
-```bash
-# Terminal 1 - LiveKit Server
-livekit-server --dev
-
-# Terminal 2 - Backend Agent
-cd backend
-uv run python src/agent.py dev
-
-# Terminal 3 - Frontend
-cd frontend
-pnpm dev
-```
-
-Then open http://localhost:3000 in your browser!
-
-## Daily Challenge Tasks
-
-Each day, you'll receive a new task that builds upon your voice agent. The tasks will help you:
-
-- Implement different personas and conversation styles
-- Add custom tools and capabilities
-- Integrate with external APIs
-- Build domain-specific agents (customer service, tutoring, etc.)
-- Optimize performance and user experience
-
-**Stay tuned for daily task announcements!**
-
-## Documentation & Resources
-
-- [Murf Falcon TTS Documentation](https://murf.ai/api/docs/text-to-speech/streaming)
-- [LiveKit Agents Documentation](https://docs.livekit.io/agents)
-- [Original Backend Template](https://github.com/livekit-examples/agent-starter-python)
-- [Original Frontend Template](https://github.com/livekit-examples/agent-starter-react)
-
-## Testing
-
-The backend includes a comprehensive test suite:
-
-```bash
-cd backend
-uv run pytest
-```
-
-Learn more about testing voice agents in the [LiveKit testing documentation](https://docs.livekit.io/agents/build/testing/).
-
-## Contributing & Community
-
-This is a challenge repository, but we encourage collaboration and knowledge sharing!
-
-- Share your solutions and learnings on GitHub
-- Post about your progress on LinkedIn
-- Join the [LiveKit Community Slack](https://livekit.io/join-slack)
-- Connect with other challenge participants
-
-## License
-
-This project is based on MIT-licensed templates from LiveKit and includes integration with Murf Falcon. See individual LICENSE files in backend and frontend directories for details.
-
-## Have Fun!
-
-Remember, the goal is to learn, experiment, and build amazing voice AI agents. Don't hesitate to be creative and push the boundaries of what's possible with Murf Falcon and LiveKit!
-
-Good luck with the challenge!
+| Scenario | Status | Description |
+|----------|--------|-------------|
+| ✅ Confirmed Safe | `confirmed_safe` | Customer made the transaction |
+| 🚨 Confirmed Fraud | `confirmed_fraud` | Card blocked, dispute raised |
+| ❌ Verification Failed | `verification_failed` | Wrong security answer, call ended |
 
 ---
 
-Built for the AI Voice Agents Challenge by murf.ai
+## 🛠️ Tech Stack
+
+| Component | Technology |
+|-----------|------------|
+| 🎙️ TTS | Murf Falcon (fastest TTS API!) |
+| 👂 STT | Deepgram Nova-3 |
+| 🧠 LLM | Google Gemini 2.5 Flash |
+| 🗄️ Database | SQLite |
+| 🔧 Voice Pipeline | LiveKit Agents |
+| ⚛️ Frontend | Next.js + Tailwind CSS |
+
+---
+
+## 📁 Project Structure
+
+```
+├── backend/
+│   └── src/
+│       ├── agent.py              # FraudAlertAgent with 4 function tools
+│       ├── fraud_cases.db        # SQLite database
+│       └── database/
+│           ├── __init__.py
+│           ├── fraud_db.py       # Database operations
+│           ├── seed_data.py      # Sample fraud cases
+│           └── view_cases.py     # CLI viewer for cases
+├── frontend/
+│   ├── components/app/
+│   │   ├── welcome-view.tsx      # "Incoming Call" UI
+│   │   ├── session-view.tsx      # Auto-open chat
+│   │   ├── tile-layout.tsx       # Blue-themed visualizer
+│   │   └── chat-transcript.tsx   # Simplified real-time chat
+│   ├── hooks/
+│   │   └── useChatMessages.ts    # Real-time transcription fix
+│   └── styles/
+│       └── globals.css           # Bank-themed colors
+└── challenges/
+    └── Day 6 Task.md
+```
+
+---
+
+## 🚀 Quick Start
+
+### 1. Backend Setup
+
+```bash
+cd backend
+
+# Seed the database with sample fraud cases
+uv run python -m src.database.seed_data
+
+# Start the agent
+uv run python src/agent.py dev
+```
+
+### 2. Frontend Setup
+
+```bash
+cd frontend
+pnpm install
+pnpm dev
+```
+
+### 3. View Database Status
+
+```bash
+cd backend
+uv run python -m src.database.view_cases
+```
+
+---
+
+## 🧪 Test Scenarios
+
+| Customer | Security Question | Answer | Try Saying |
+|----------|-------------------|--------|------------|
+| John | Mother's maiden name? | Smith | "Yes" → Safe |
+| Sarah | First pet's name? | Buddy | "No" → Fraud |
+| Mike | Favorite movie? | Inception | Wrong answer → Failed |
+
+---
+
+## 📞 Call Flow
+
+```
+1. Agent: "Hello, this is Alex from SecureBank..."
+2. User: Confirms name (e.g., "John")
+3. Agent: Loads case, asks security question
+4. User: Answers security question
+5. Agent: Reads transaction details
+6. User: "Yes I made it" or "No I didn't"
+7. Agent: Updates database, confirms action taken
+```
+
+---
+
+## 🔧 Function Tools
+
+| Tool | Purpose |
+|------|---------|
+| `load_fraud_case(user_name)` | Fetch pending case from database |
+| `verify_customer_identity(user_name, answer)` | Check security answer |
+| `mark_transaction_safe(case_id)` | Mark as confirmed safe |
+| `mark_transaction_fraudulent(case_id)` | Mark as fraud, block card |
+
+---
+
+## 📚 Resources
+
+- [LiveKit Agents - Tools](https://docs.livekit.io/agents/build/tools/)
+- [Python SQLite Guide](https://www.geeksforgeeks.org/python/python-sqlite/)
+- [Murf Falcon TTS](https://murf.ai/api/docs/text-to-speech/streaming)
+
+---
+
+## 🏆 Challenge Progress
+
+- [x] Day 1-5: Previous challenges
+- [x] **Day 6: Fraud Alert Voice Agent** ← I am here!
+- [ ] Day 7-10: Coming soon...
+
+---
+
+Built for the **Murf AI Voice Agents Challenge** 🚀
+
+#MurfAIVoiceAgentsChallenge #10DaysofAIVoiceAgents
