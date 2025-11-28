@@ -3,26 +3,8 @@ Cart Manager for FreshMart Shopping Agent
 Handles shopping cart operations: add, remove, update, view
 """
 
-import json
-from pathlib import Path
 from typing import Optional
-
-DATA_DIR = Path(__file__).parent
-
-
-def load_catalog() -> dict:
-    """Load the product catalog from JSON."""
-    with open(DATA_DIR / "catalog.json", "r") as f:
-        return json.load(f)
-
-
-def get_item_by_id(item_id: str) -> Optional[dict]:
-    """Get a catalog item by its ID."""
-    catalog = load_catalog()
-    for item in catalog["items"]:
-        if item["id"] == item_id:
-            return item
-    return None
+from .database import get_catalog_item
 
 
 class CartManager:
@@ -36,7 +18,7 @@ class CartManager:
         Add an item to the cart.
         Returns result with success status and message.
         """
-        item = get_item_by_id(item_id)
+        item = get_catalog_item(item_id)
         if not item:
             return {
                 "success": False,
