@@ -1,0 +1,19 @@
+[
+  {
+    "id": "ORD-20251130-001",
+    "line_items": [
+      {
+        "product_id": 10,
+        "title": "SanDisk SSD PLUS 1TB Internal SSD - SATA III 6 Gb/s",
+        "quantity": 2,
+        "unit_price": 109,
+        "image": "https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_t.png"
+      }
+    ],
+    "total": 218,
+    "currency": "USD",
+    "status": "CONFIRMED",
+    "customer_name": "Jack Sparrow",
+    "created_at": "2025-11-30T00:51:27.396320"
+  }
+]

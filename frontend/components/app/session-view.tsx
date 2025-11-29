@@ -1,9 +1,11 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import type { AppConfig } from '@/app-config';
 import { ChatTranscript } from '@/components/app/chat-transcript';
+import { ProductGrid } from '@/components/app/product-grid';
+import { OrderReceipt } from '@/components/app/order-receipt';
 import { PreConnectMessage } from '@/components/app/preconnect-message';
 import { TileLayout } from '@/components/app/tile-layout';
 import {
@@ -11,6 +13,7 @@ import {
   type ControlBarControls,
 } from '@/components/livekit/agent-control-bar/agent-control-bar';
 import { useChatMessages } from '@/hooks/useChatMessages';
+import { useShopData } from '@/hooks/useShopData';
 import { useConnectionTimeout } from '@/hooks/useConnectionTimout';
 import { useDebugMode } from '@/hooks/useDebug';
 import { cn } from '@/lib/utils';
@@ -58,6 +61,7 @@ export function Fade({ top = false, bottom = false, className }: FadeProps) {
     />
   );
 }
+
 interface SessionViewProps {
   appConfig: AppConfig;
 }
@@ -70,7 +74,8 @@ export const SessionView = ({
   useDebugMode({ enabled: IN_DEVELOPMENT });
 
   const messages = useChatMessages();
-  const [chatOpen, setChatOpen] = useState(false);
+  const { products, order } = useShopData();
+  const [chatOpen, setChatOpen] = useState(true);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   const controls: ControlBarControls = {
@@ -81,32 +86,62 @@ export const SessionView = ({
     screenShare: appConfig.supportsVideoInput,
   };
 
+  // Auto-open chat when first message arrives
   useEffect(() => {
-    const lastMessage = messages.at(-1);
-    const lastMessageIsLocal = lastMessage?.from?.isLocal === true;
+    if (messages.length > 0 && !chatOpen) {
+      setChatOpen(true);
+    }
+  }, [messages.length]);
 
-    if (scrollAreaRef.current && lastMessageIsLocal) {
+  // Auto-scroll on all messages
+  useEffect(() => {
+    if (scrollAreaRef.current && messages.length > 0) {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
   }, [messages]);
 
+  // Determine layout based on what data we have
+  const hasProducts = products.length > 0;
+  const hasOrder = order !== null;
+  const hasSidebar = hasProducts || hasOrder;
+
   return (
     <section className="bg-background relative z-10 h-full w-full overflow-hidden" {...props}>
-      {/* Chat Transcript */}
+      {/* Main Content Area */}
       <div
         className={cn(
-          'fixed inset-0 grid grid-cols-1 grid-rows-1',
-          !chatOpen && 'pointer-events-none'
+          'fixed inset-0 grid grid-rows-1 z-40',
+          hasSidebar ? 'grid-cols-[320px_1fr]' : 'grid-cols-1'
         )}
       >
-        <Fade top className="absolute inset-x-4 top-0 h-40" />
-        <ScrollArea ref={scrollAreaRef} className="px-4 pt-40 pb-[150px] md:px-6 md:pb-[180px]">
-          <ChatTranscript
-            hidden={!chatOpen}
-            messages={messages}
-            className="mx-auto max-w-2xl space-y-3 transition-opacity duration-300 ease-out"
-          />
-        </ScrollArea>
+        {/* Left Sidebar - Products or Order Receipt */}
+        <AnimatePresence>
+          {hasSidebar && (
+            <div className="relative pt-20 pb-[200px] px-4 overflow-y-auto custom-scrollbar border-r border-orange-500/20">
+              {/* Show Order Receipt if order exists, otherwise show products */}
+              {hasOrder ? (
+                <OrderReceipt order={order} />
+              ) : (
+                <ProductGrid products={products} />
+              )}
+            </div>
+          )}
+        </AnimatePresence>
+
+        {/* Chat Area */}
+        <div className="relative pointer-events-auto flex flex-col">
+          <Fade top className="absolute inset-x-4 top-0 h-40 z-10" />
+          <ScrollArea
+            ref={scrollAreaRef}
+            className="px-4 pt-20 pb-[200px] md:px-6 md:pb-[220px] custom-scrollbar h-full"
+          >
+            <ChatTranscript
+              hidden={false}
+              messages={messages}
+              className="mx-auto max-w-2xl space-y-3 transition-opacity duration-300 ease-out"
+            />
+          </ScrollArea>
+        </div>
       </div>
 
       {/* Tile Layout */}

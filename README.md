@@ -2,6 +2,41 @@
 
 Welcome to the **AI Voice Agents Challenge** by [murf.ai](https://murf.ai)!
 
+# day 9 architecture
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        FRONTEND (Next.js)                                │
+│  ┌──────────────┐  ┌──────────────────┐  ┌────────────────────────────┐ │
+│  │ Product Grid │  │ Chat Transcript  │  │ Order Receipt              │ │
+│  │ (with images)│  │ (real-time)      │  │ (shows on order complete)  │ │
+│  └──────┬───────┘  └────────┬─────────┘  └──────────────┬─────────────┘ │
+│         │                   │                           │               │
+│         │    useTextStream  │    useChatMessages        │  useOrderState│
+│         │    (products)     │                           │               │
+└─────────┼───────────────────┼───────────────────────────┼───────────────┘
+          │                   │                           │
+          ▼                   ▼                           ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         BACKEND (Python Agent)                           │
+│                                                                          │
+│  ┌─────────────────────────────────────────────────────────────────────┐│
+│  │                     EcommerceAgent (Ava)                            ││
+│  │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌───────────────┐  ││
+│  │  │list_products│ │search_prods │ │create_order │ │get_last_order │  ││
+│  │  └──────┬──────┘ └──────┬──────┘ └──────┬──────┘ └───────┬───────┘  ││
+│  └─────────┼───────────────┼───────────────┼────────────────┼──────────┘│
+│            │               │               │                │           │
+└────────────┼───────────────┼───────────────┼────────────────┼───────────┘
+             │               │               │                │
+             ▼               ▼               ▼                ▼
+      ┌──────────────────────────┐    ┌──────────────────────────┐
+      │     FakeStore API        │    │    Local orders.json     │
+      │  - 20 products           │    │    - Order persistence   │
+      │  - 4 categories          │    │    - ACP-style schema    │
+      │  - Images, ratings       │    │                          │
+      └──────────────────────────┘    └──────────────────────────┘
+```
+
 ## About the Challenge
 
 We just launched **Murf Falcon** – the consistently fastest TTS API, and you're going to be among the first to test it out in ways never thought before!
