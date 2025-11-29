@@ -13,7 +13,7 @@ from livekit.agents import (
     metrics,
     tokenize,
     function_tool,
-    RunContext
+    RunContext,
 )
 from livekit.plugins import murf, silero, google, deepgram, noise_cancellation
 from livekit.plugins.turn_detector.multilingual import MultilingualModel
@@ -68,7 +68,7 @@ class GameMasterAgent(Agent):
     @function_tool
     async def start_new_adventure(self, context: RunContext):
         """Start a fresh new adventure from the beginning.
-        
+
         Use this when the player explicitly asks to start over or begin a new quest.
         """
         self.adventure_started = True
@@ -79,13 +79,15 @@ class GameMasterAgent(Agent):
     @function_tool
     async def set_player_name(self, context: RunContext, name: str):
         """Remember the player's character name for the adventure.
-        
+
         Args:
             name: The name the player has chosen for their character.
         """
         self.player_name = name
         logger.info(f"Player name set to: {name}")
-        return f"Player name recorded as {name}. Use this name when addressing the player."
+        return (
+            f"Player name recorded as {name}. Use this name when addressing the player."
+        )
 
 
 def prewarm(proc: JobProcess):
@@ -112,14 +114,13 @@ async def entrypoint(ctx: JobContext):
             speed=2.0,
             pitch=-2.0,
             tokenizer=tokenize.basic.SentenceTokenizer(min_sentence_len=2),
-            text_pacing=True
+            text_pacing=True,
         ),
         # VAD and turn detection
         turn_detection=MultilingualModel(),
         vad=ctx.proc.userdata["vad"],
         preemptive_generation=True,
     )
-
 
     # Metrics collection, to measure pipeline performance
     # For more information, see https://docs.livekit.io/agents/build/metrics/
@@ -135,7 +136,6 @@ async def entrypoint(ctx: JobContext):
         logger.info(f"Usage: {summary}")
 
     ctx.add_shutdown_callback(log_usage)
-
 
     # Start the session, which initializes the voice pipeline and warms up the models
     await session.start(
