@@ -81,11 +81,16 @@ export const SessionView = ({
     screenShare: appConfig.supportsVideoInput,
   };
 
+  // Auto-open chat when first message arrives
   useEffect(() => {
-    const lastMessage = messages.at(-1);
-    const lastMessageIsLocal = lastMessage?.from?.isLocal === true;
+    if (messages.length > 0 && !chatOpen) {
+      setChatOpen(true);
+    }
+  }, [messages.length]);
 
-    if (scrollAreaRef.current && lastMessageIsLocal) {
+  // Auto-scroll on all messages (not just local)
+  useEffect(() => {
+    if (scrollAreaRef.current && messages.length > 0) {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
   }, [messages]);
