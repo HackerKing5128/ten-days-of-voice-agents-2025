@@ -15,5 +15,22 @@
     "status": "CONFIRMED",
     "customer_name": "Jack Sparrow",
     "created_at": "2025-11-30T00:51:27.396320"
+  },
+  {
+    "id": "ORD-20251130-002",
+    "line_items": [
+      {
+        "product_id": 7,
+        "title": "White Gold Plated Princess",
+        "quantity": 1,
+        "unit_price": 9.99,
+        "image": "https://fakestoreapi.com/img/71YAIFU48IL._AC_UL640_QL65_ML3_t.png"
+      }
+    ],
+    "total": 9.99,
+    "currency": "USD",
+    "status": "CONFIRMED",
+    "customer_name": "Angie",
+    "created_at": "2025-11-30T13:29:40.622036"
   }
 ]

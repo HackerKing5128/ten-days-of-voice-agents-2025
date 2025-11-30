@@ -80,6 +80,7 @@ class EcommerceAgent(Agent):
     def __init__(self) -> None:
         super().__init__(instructions=ECOMMERCE_INSTRUCTIONS)
         self.current_products = []  # Store last shown products for reference
+        self.room = None
         logger.info("EcommerceAgent (Ava) initialized")
 
     @function_tool
@@ -109,7 +110,7 @@ class EcommerceAgent(Agent):
 
         # Send products to frontend via text stream
         try:
-            await context.session.room.local_participant.send_text(
+            await self.room.local_participant.send_text(
                 json.dumps({"type": "products", "data": products}), topic="shop-data"
             )
             logger.info(f"Sent {len(products)} products to frontend")
@@ -152,7 +153,7 @@ class EcommerceAgent(Agent):
 
         # Send products to frontend
         try:
-            await context.session.room.local_participant.send_text(
+            await self.room.local_participant.send_text(
                 json.dumps({"type": "products", "data": products}), topic="shop-data"
             )
         except Exception as e:
@@ -239,7 +240,7 @@ class EcommerceAgent(Agent):
 
         # Send order to frontend for receipt display
         try:
-            await context.session.room.local_participant.send_text(
+            await self.room.local_participant.send_text(
                 json.dumps({"type": "order", "data": order}), topic="shop-data"
             )
             logger.info(f"Sent order {order['id']} to frontend")
@@ -272,7 +273,7 @@ class EcommerceAgent(Agent):
 
         # Send order to frontend
         try:
-            await context.session.room.local_participant.send_text(
+            await self.room.local_participant.send_text(
                 json.dumps({"type": "order", "data": order}), topic="shop-data"
             )
         except Exception as e:
@@ -325,8 +326,12 @@ async def entrypoint(ctx: JobContext):
 
     ctx.add_shutdown_callback(log_usage)
 
+    # Create agent and set room reference
+    agent = EcommerceAgent()
+    agent.room = ctx.room
+
     await session.start(
-        agent=EcommerceAgent(),
+        agent=agent,
         room=ctx.room,
         room_input_options=RoomInputOptions(
             noise_cancellation=noise_cancellation.BVC(),
