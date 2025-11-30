@@ -1,8 +1,3 @@
-# AI Voice Agents Challenge - Starter Repository
-
-Welcome to the **AI Voice Agents Challenge** by [murf.ai](https://murf.ai)!
-
-
 # Day 9 – E-commerce Agent (Ava) 🛒
 
 > Part of the **AI Voice Agents Challenge** by [Murf AI](https://murf.ai)
