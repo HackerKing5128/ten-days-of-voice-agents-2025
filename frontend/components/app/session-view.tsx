@@ -1,165 +1,211 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence } from 'motion/react';
 import type { AppConfig } from '@/app-config';
 import { ChatTranscript } from '@/components/app/chat-transcript';
-import { ProductGrid } from '@/components/app/product-grid';
 import { OrderReceipt } from '@/components/app/order-receipt';
-import { PreConnectMessage } from '@/components/app/preconnect-message';
+import { ProductGrid } from '@/components/app/product-grid';
 import { TileLayout } from '@/components/app/tile-layout';
 import {
   AgentControlBar,
   type ControlBarControls,
 } from '@/components/livekit/agent-control-bar/agent-control-bar';
 import { useChatMessages } from '@/hooks/useChatMessages';
-import { useShopData } from '@/hooks/useShopData';
 import { useConnectionTimeout } from '@/hooks/useConnectionTimout';
 import { useDebugMode } from '@/hooks/useDebug';
+import { useShopData } from '@/hooks/useShopData';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '../livekit/scroll-area/scroll-area';
 
-const MotionBottom = motion.create('div');
-
-const IN_DEVELOPMENT = process.env.NODE_ENV !== 'production';
-const BOTTOM_VIEW_MOTION_PROPS = {
-  variants: {
-    visible: {
-      opacity: 1,
-      translateY: '0%',
-    },
-    hidden: {
-      opacity: 0,
-      translateY: '100%',
-    },
-  },
-  initial: 'hidden',
-  animate: 'visible',
-  exit: 'hidden',
-  transition: {
-    duration: 0.3,
-    delay: 0.5,
-    ease: 'easeOut',
-  },
-};
-
-interface FadeProps {
-  top?: boolean;
-  bottom?: boolean;
-  className?: string;
-}
-
-export function Fade({ top = false, bottom = false, className }: FadeProps) {
-  return (
-    <div
-      className={cn(
-        'from-background pointer-events-none h-4 bg-linear-to-b to-transparent',
-        top && 'bg-linear-to-b',
-        bottom && 'bg-linear-to-t',
-        className
-      )}
-    />
-  );
-}
-
-interface SessionViewProps {
-  appConfig: AppConfig;
-}
-
-export const SessionView = ({
-  appConfig,
-  ...props
-}: React.ComponentProps<'section'> & SessionViewProps) => {
+export function SessionView({ appConfig }: { appConfig: AppConfig }) {
   useConnectionTimeout(200_000);
-  useDebugMode({ enabled: IN_DEVELOPMENT });
+  useDebugMode({ enabled: process.env.NODE_ENV !== 'production' });
 
   const messages = useChatMessages();
   const { products, order } = useShopData();
-  const [chatOpen, setChatOpen] = useState(true);
+  const [chatInputOpen, setChatInputOpen] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   const controls: ControlBarControls = {
     leave: true,
     microphone: true,
-    chat: appConfig.supportsChatInput,
+    chat: true,
     camera: appConfig.supportsVideoInput,
-    screenShare: appConfig.supportsVideoInput,
+    screenShare: false,
   };
 
-  // Auto-open chat when first message arrives
   useEffect(() => {
-    if (messages.length > 0 && !chatOpen) {
-      setChatOpen(true);
-    }
-  }, [messages.length]);
-
-  // Auto-scroll on all messages
-  useEffect(() => {
-    if (scrollAreaRef.current && messages.length > 0) {
+    if (scrollAreaRef.current) {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
   }, [messages]);
 
-  // Determine layout based on what data we have
-  const hasProducts = products.length > 0;
-  const hasOrder = order !== null;
-  const hasSidebar = hasProducts || hasOrder;
-
   return (
-    <section className="bg-background relative z-10 h-full w-full overflow-hidden" {...props}>
-      {/* Main Content Area */}
-      <div
-        className={cn(
-          'fixed inset-0 grid grid-rows-1 z-40',
-          hasSidebar ? 'grid-cols-[320px_1fr]' : 'grid-cols-1'
-        )}
-      >
-        {/* Left Sidebar - Products or Order Receipt */}
+    <div className="flex h-screen w-full overflow-hidden bg-zinc-950 font-sans text-white">
+      
+
+      {/* ================= LEFT: MAIN CONTENT ================= */}
+      <div className="relative flex min-w-0 flex-1 flex-col">
+        {/* Sticky Header */}
+        <div className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-white/5 bg-zinc-950/90 px-6 backdrop-blur-md">
+          <div className="flex items-center gap-2">
+            <div className="w-[160px] md:w-[200px]">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="100%" height="auto">
+            <defs>
+              <linearGradient id="avaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{ stopColor: '#b066ff', stopOpacity: 1 }} />
+                <stop offset="100%" style={{ stopColor: '#00d4ff', stopOpacity: 1 }} />
+              </linearGradient>
+            </defs>
+            <g transform="translate(35, 25)">
+              <path
+                d="M15,25 L65,25 L75,75 L5,75 Z"
+                fill="none"
+                stroke="url(#avaGradient)"
+                strokeWidth="4"
+                strokeLinejoin="round"
+              />
+              <rect x="25" y="35" width="4" height="20" rx="2" fill="#b066ff">
+                <animate
+                  attributeName="height"
+                  values="20;10;25;15;20"
+                  dur="1.5s"
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="y"
+                  values="35;40;32;38;35"
+                  dur="1.5s"
+                  repeatCount="indefinite"
+                />
+              </rect>
+              <rect x="38" y="30" width="4" height="30" rx="2" fill="#00d4ff">
+                <animate
+                  attributeName="height"
+                  values="30;15;35;20;30"
+                  dur="1.5s"
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="y"
+                  values="30;38;28;35;30"
+                  dur="1.5s"
+                  repeatCount="indefinite"
+                />
+              </rect>
+              <rect x="51" y="35" width="4" height="20" rx="2" fill="#b066ff">
+                <animate
+                  attributeName="height"
+                  values="20;10;25;15;20"
+                  dur="1.5s"
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="y"
+                  values="35;40;32;38;35"
+                  dur="1.5s"
+                  repeatCount="indefinite"
+                />
+              </rect>
+              <path
+                d="M25,25 C25,10 55,10 55,25"
+                stroke="url(#avaGradient)"
+                strokeWidth="4"
+                fill="none"
+                strokeLinecap="round"
+              />
+              <circle cx="40" cy="15" r="3" fill="#ffffff" opacity="0.8" />
+            </g>
+            <g
+              transform="translate(125, 40)"
+              fontFamily="'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+            >
+              <text x="0" y="30" fontSize="38" fontWeight="700" fill="#ffffff" letterSpacing="1">
+                ShopVoice
+              </text>
+              <g transform="translate(2, 55)">
+                <text x="0" y="0" fontSize="14" fill="#a0a0a0" fontWeight="400" letterSpacing="1.5">
+                  POWERED BY AVA
+                </text>
+                <circle cx="135" cy="-4" r="3" fill="#00d4ff">
+                  <animate
+                    attributeName="opacity"
+                    values="1;0.3;1"
+                    dur="2s"
+                    repeatCount="indefinite"
+                  />
+                </circle>
+              </g>
+            </g>
+          </svg>
+        </div>
+          </div>
+          {products.length > 0 && (
+            <span className="rounded-full border border-orange-400/20 bg-orange-400/10 px-2 py-1 font-mono text-xs text-orange-400">
+              {products.length} items
+            </span>
+          )}
+        </div>
+
+        {/* Scrollable Product Grid */}
+        <div className="custom-scrollbar flex-1 overflow-y-auto p-6 pb-32">
+          <div className="mx-auto max-w-6xl">
+            <ProductGrid products={products} />
+          </div>
+        </div>
+
+        {/* Order Modal */}
         <AnimatePresence>
-          {hasSidebar && (
-            <div className="relative pt-20 pb-[200px] px-4 overflow-y-auto custom-scrollbar border-r border-orange-500/20">
-              {/* Show Order Receipt if order exists, otherwise show products */}
-              {hasOrder ? (
+          {order && (
+            <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
+              <div className="w-full max-w-md">
                 <OrderReceipt order={order} />
-              ) : (
-                <ProductGrid products={products} />
-              )}
+              </div>
             </div>
           )}
         </AnimatePresence>
-
-        {/* Chat Area */}
-        <div className="relative pointer-events-auto flex flex-col">
-          <Fade top className="absolute inset-x-4 top-0 h-40 z-10" />
-          <ScrollArea
-            ref={scrollAreaRef}
-            className="px-4 pt-20 pb-[200px] md:px-6 md:pb-[220px] custom-scrollbar h-full"
-          >
-            <ChatTranscript
-              hidden={false}
-              messages={messages}
-              className="mx-auto max-w-2xl space-y-3 transition-opacity duration-300 ease-out"
-            />
-          </ScrollArea>
-        </div>
       </div>
 
-      {/* Tile Layout */}
-      <TileLayout chatOpen={chatOpen} />
-
-      {/* Bottom */}
-      <MotionBottom
-        {...BOTTOM_VIEW_MOTION_PROPS}
-        className="fixed inset-x-3 bottom-0 z-50 md:inset-x-12"
-      >
-        {appConfig.isPreConnectBufferEnabled && (
-          <PreConnectMessage messages={messages} className="pb-4" />
-        )}
-        <div className="bg-background relative mx-auto max-w-2xl pb-3 md:pb-12">
-          <Fade bottom className="absolute inset-x-0 top-0 h-4 -translate-y-full" />
-          <AgentControlBar controls={controls} onChatOpenChange={setChatOpen} />
+      {/* ================= RIGHT: SIDEBAR ================= */}
+      <div className="z-30 flex w-80 shrink-0 flex-col border-l border-white/5 bg-zinc-900/30">
+        {/* Header Matcher (Empty to align with left header) */}
+        <div className="flex h-16 items-center justify-center border-b border-white/5 bg-white/5">
+          <span className="font-mono text-[10px] tracking-widest text-white/40 uppercase">
+            Live Agent
+          </span>
         </div>
-      </MotionBottom>
-    </section>
+
+        {/* Top: Agent Visualizer */}
+        <div className="relative flex h-32 items-center justify-center overflow-hidden border-b border-white/5 bg-black/20">
+          {/* Force chatOpen=true for small scale */}
+          <div className="scale-75 opacity-90">
+            <TileLayout chatOpen={true} />
+          </div>
+        </div>
+
+        {/* Middle: Transcript */}
+        <div className="group relative flex min-h-0 flex-1 flex-col">
+          <div className="flex items-center justify-between border-b border-white/5 bg-white/5 p-2">
+            <h3 className="pl-2 font-mono text-[10px] tracking-widest text-white/50 uppercase">
+              Transcript
+            </h3>
+          </div>
+
+          {/* Scrollbar Hiding applied here */}
+          <ScrollArea
+            ref={scrollAreaRef}
+            className="flex-1 p-4 [-ms-overflow-style:'none'] [scrollbar-width:'none'] [&::-webkit-scrollbar]:hidden"
+          >
+            <ChatTranscript messages={messages} />
+          </ScrollArea>
+        </div>
+
+        {/* Bottom: Controls (Clean - No extra box) */}
+        <div className="flex justify-center border-t border-white/5 bg-zinc-900/50 p-4">
+          <AgentControlBar controls={controls} onChatOpenChange={setChatInputOpen} />
+        </div>
+      </div>
+    </div>
   );
-};
+}

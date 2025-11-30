@@ -7,11 +7,9 @@ export interface Product {
   price: number;
   description: string;
   category: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
+  thumbnail: string; // Changed from 'image'
+  images: string[];  // New field
+  rating: number;    // Changed from object { rate, count } to number
 }
 
 export interface OrderLineItem {
@@ -53,9 +51,12 @@ export function useShopData(): ShopData {
     ) => {
       try {
         const text = await reader.readAll();
+        console.log("🔥 RAW STREAM DATA RECEIVED:", text); // <--- DEBUG LOG
+
         const data = JSON.parse(text);
 
         if (data.type === 'products') {
+          console.log("✅ Setting Products State:", data.data); // <--- DEBUG LOG
           setProducts(data.data);
           console.log('Received products:', data.data.length);
         } else if (data.type === 'order') {

@@ -43,7 +43,6 @@ load_dotenv(".env.local")
 # =============================================================================
 
 ECOMMERCE_INSTRUCTIONS = """You are Ava, a friendly and helpful voice shopping assistant for ShopVoice, an online store.
-
 Your role is to help customers:
 1. Browse and discover products from our catalog
 2. Search for specific items they're looking for
@@ -51,11 +50,12 @@ Your role is to help customers:
 4. Place orders for products they want to buy
 5. Check their recent orders
 
-AVAILABLE CATEGORIES:
-- electronics (monitors, SSDs, hard drives)
-- jewelery (gold, silver jewelry)
-- men's clothing (t-shirts, jackets, casual wear)
-- women's clothing (jackets, tops, dresses)
+AVAILABLE CATEGORIES (Use these EXACT slugs for browsing):
+- smartphones, laptops, tablets
+- mens-watches, womens-watches, womens-bags, womens-jewellery
+- skincare, fragrances, beauty, sunglasses
+- groceries, home-decoration, furniture
+- tops, womens-dresses, womens-shoes, mens-shirts, mens-shoes
 
 PERSONALITY:
 - Warm, friendly, and professional
@@ -75,7 +75,7 @@ Start by greeting the customer warmly and asking what they're looking for today.
 
 
 class EcommerceAgent(Agent):
-    """Voice shopping assistant powered by FakeStore API."""
+    """Voice shopping assistant powered by DummyJSON."""
 
     def __init__(self) -> None:
         super().__init__(instructions=ECOMMERCE_INSTRUCTIONS)
@@ -90,25 +90,36 @@ class EcommerceAgent(Agent):
         """Browse products from the catalog, optionally filtered by category.
 
         Use this when the customer wants to see what's available or browse a category.
-        Categories: electronics, jewelery, men's clothing, women's clothing
 
         Args:
-            category: Optional category to filter by (electronics, jewelery, men's clothing, women's clothing)
+            category: Optional category slug (e.g. smartphones, laptops, mens-watches, beauty)
             limit: Maximum number of products to show (default 5)
         """
-        logger.info(f"Listing products - category: '{category}', limit: {limit}")
+        logger.info(f"Listing products - category: '{category}'")
+
+        # TRICK: Ignore the LLM's requested limit for the data fetch.
+        # Always fetch '0' (all) or '30' so the frontend grid is full.
+        ui_fetch_limit = 0
 
         if category:
-            products = await get_products_by_category(category, limit)
+            products = await get_products_by_category(category, limit=ui_fetch_limit)
+
+            # FALLBACK: If category lookup failed, try searching
+            if not products:
+                logger.info(
+                    f"Category '{category}' returned 0 results. Falling back to search."
+                )
+                products = await search_products(category, limit=ui_fetch_limit)
         else:
-            products = await get_all_products(limit)
+            # "Show me everything"
+            products = await get_all_products(limit=ui_fetch_limit)
 
         if not products:
-            return "I couldn't find any products right now. Please try again."
+            return "I couldn't find any products matching that category. Could you try 'smartphones', 'laptops', or 'watches'?"
 
         self.current_products = products
 
-        # Send products to frontend via text stream
+        # 1. Send FULL list to Frontend (Grid will show 20-30 items)
         try:
             await self.room.local_participant.send_text(
                 json.dumps({"type": "products", "data": products}), topic="shop-data"
@@ -117,19 +128,20 @@ class EcommerceAgent(Agent):
         except Exception as e:
             logger.error(f"Failed to send products to frontend: {e}")
 
-        # Format response for voice
+        # 2. Verbalize only the TOP 3 (So she doesn't talk forever)
+        # We use the original 'limit' arg or hardcode to 3
+        verbal_limit = 3
         product_list = []
-        for i, p in enumerate(products[:5], 1):
-            rating = p.get("rating", {}).get("rate", "N/A")
-            product_list.append(
-                f"{i}. {p['title'][:50]} - ${p['price']:.2f} (Rating: {rating})"
-            )
+        for i, p in enumerate(products[:verbal_limit], 1):
+            rating = p.get("rating", "N/A")
+            product_list.append(f"{i}. {p['title']} - ${p['price']:.2f}")
 
         category_text = f" in {category}" if category else ""
         return (
-            f"I found {len(products)} products{category_text}:\n"
+            f"I found {len(products)} products{category_text}. I've put them all on your screen.\n"
+            f"Here are the top picks:\n"
             + "\n".join(product_list)
-            + "\n\nWould you like to know more about any of these, or place an order?"
+            + "\n\nSee anything you like?"
         )
 
     @function_tool
@@ -143,11 +155,11 @@ class EcommerceAgent(Agent):
         """
         logger.info(f"Searching products for: {query}")
 
-        products = await search_products(query, limit=5)
+        products = await search_products(query, limit=0)
 
         if not products:
-            categories = await get_categories()
-            return f"I couldn't find products matching '{query}'. Try browsing our categories: {', '.join(categories)}"
+            # Removed get_categories() call to keep it faster, just suggesting common ones
+            return f"I couldn't find products matching '{query}'. Try browsing categories like laptops or skincare."
 
         self.current_products = products
 
@@ -162,7 +174,7 @@ class EcommerceAgent(Agent):
         # Format response
         product_list = []
         for i, p in enumerate(products[:5], 1):
-            product_list.append(f"{i}. {p['title'][:50]} - ${p['price']:.2f}")
+            product_list.append(f"{i}. {p['title']} - ${p['price']:.2f}")
 
         return (
             f"I found {len(products)} products matching '{query}':\n"
@@ -188,13 +200,15 @@ class EcommerceAgent(Agent):
             return f"Please choose a number between 1 and {len(self.current_products)}"
 
         product = self.current_products[product_number - 1]
-        rating = product.get("rating", {})
+
+        # DummyJSON rating is a number, not object
+        rating = product.get("rating", "N/A")
 
         return (
             f"Here are the details for {product['title']}:\n"
             f"Price: ${product['price']:.2f}\n"
             f"Category: {product['category']}\n"
-            f"Rating: {rating.get('rate', 'N/A')} stars from {rating.get('count', 0)} reviews\n"
+            f"Rating: {rating} stars\n"
             f"Description: {product['description'][:150]}...\n\n"
             f"Would you like to order this?"
         )
@@ -228,12 +242,15 @@ class EcommerceAgent(Agent):
 
         product = self.current_products[product_number - 1]
 
+        # Handle DummyJSON 'thumbnail' vs legacy 'image'
+        image_url = product.get("thumbnail") or product.get("image") or ""
+
         # Create order
         order = create_order(
             product_id=product["id"],
             product_title=product["title"],
             product_price=product["price"],
-            product_image=product["image"],
+            product_image=image_url,
             quantity=quantity,
             customer_name=customer_name,
         )
@@ -343,7 +360,7 @@ async def entrypoint(ctx: JobContext):
     # Initial greeting
     await session.say(
         "Hi there! I'm Ava, your shopping assistant at ShopVoice. "
-        "We have electronics, clothing, jewelry, and more. "
+        "We have smartphones, clothing, and more. "
         "What can I help you find today?"
     )
 

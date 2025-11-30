@@ -1,6 +1,6 @@
 """
-FakeStore API Integration for Product Catalog
-https://fakestoreapi.com/
+DummyJSON API Integration for Product Catalog
+https://dummyjson.com/docs/products
 """
 
 import httpx
@@ -9,70 +9,70 @@ from typing import Optional
 
 logger = logging.getLogger("commerce.catalog")
 
-FAKESTORE_BASE_URL = "https://fakestoreapi.com"
+DUMMYJSON_BASE_URL = "https://dummyjson.com"
 
-
-async def get_all_products(limit: int = 20) -> list[dict]:
-    """Fetch all products from FakeStore API."""
+async def get_all_products(limit: int = 0) -> list[dict]:
+    """Fetch products from DummyJSON API."""
     try:
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                f"{FAKESTORE_BASE_URL}/products",
+                f"{DUMMYJSON_BASE_URL}/products",
                 params={"limit": limit},
                 timeout=10.0
             )
             response.raise_for_status()
-            products = response.json()
+            # DummyJSON returns { "products": [...], "total": 100, ... }
+            data = response.json()
+            products = data.get("products", [])
             logger.info(f"Fetched {len(products)} products")
             return products
     except Exception as e:
         logger.error(f"Failed to fetch products: {e}")
         return []
 
-
-async def get_products_by_category(category: str, limit: int = 10) -> list[dict]:
+async def get_products_by_category(category: str, limit: int = 0) -> list[dict]:
     """Fetch products by category."""
     try:
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                f"{FAKESTORE_BASE_URL}/products/category/{category}",
+                f"{DUMMYJSON_BASE_URL}/products/category/{category}",
+                params={"limit": limit},
                 timeout=10.0
             )
             response.raise_for_status()
-            products = response.json()[:limit]
+            data = response.json()
+            products = data.get("products", [])
             logger.info(f"Fetched {len(products)} products in category '{category}'")
             return products
     except Exception as e:
         logger.error(f"Failed to fetch products by category: {e}")
         return []
 
-
-async def search_products(query: str, limit: int = 10) -> list[dict]:
-    """Search products by title or description."""
+async def search_products(query: str, limit: int = 0) -> list[dict]:
+    """Search products using DummyJSON search endpoint."""
     try:
-        all_products = await get_all_products(limit=20)
-        query_lower = query.lower()
-        
-        matches = [
-            p for p in all_products
-            if query_lower in p.get("title", "").lower()
-            or query_lower in p.get("description", "").lower()
-            or query_lower in p.get("category", "").lower()
-        ]
-        
-        logger.info(f"Found {len(matches)} products matching '{query}'")
-        return matches[:limit]
+        async with httpx.AsyncClient() as client:
+            # Real search API!
+            response = await client.get(
+                f"{DUMMYJSON_BASE_URL}/products/search",
+                params={"q": query, "limit": limit},
+                timeout=10.0
+            )
+            response.raise_for_status()
+            data = response.json()
+            products = data.get("products", [])
+            logger.info(f"Found {len(products)} products matching '{query}'")
+            return products
     except Exception as e:
         logger.error(f"Failed to search products: {e}")
         return []
-
 
 async def get_product_by_id(product_id: int) -> Optional[dict]:
     """Fetch a single product by ID."""
     try:
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                f"{FAKESTORE_BASE_URL}/products/{product_id}",
+                f"{DUMMYJSON_BASE_URL}/products/{product_id}",
                 timeout=10.0
             )
             response.raise_for_status()
@@ -83,18 +83,18 @@ async def get_product_by_id(product_id: int) -> Optional[dict]:
         logger.error(f"Failed to fetch product {product_id}: {e}")
         return None
 
-
 async def get_categories() -> list[str]:
     """Get all available product categories."""
     try:
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                f"{FAKESTORE_BASE_URL}/products/categories",
+                f"{DUMMYJSON_BASE_URL}/products/category-list",
                 timeout=10.0
             )
             response.raise_for_status()
+            # Returns simple list of strings ["beauty", "fragrances", ...]
             categories = response.json()
-            logger.info(f"Fetched categories: {categories}")
+            logger.info(f"Fetched {len(categories)} categories")
             return categories
     except Exception as e:
         logger.error(f"Failed to fetch categories: {e}")
