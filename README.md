@@ -31,7 +31,7 @@ Welcome to the **AI Voice Agents Challenge** by [murf.ai](https://murf.ai)!
 # day 9 architecture
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                        FRONTEND (Next.js)                                │
+│                        FRONTEND (Next.js)                               │
 │  ┌──────────────┐  ┌──────────────────┐  ┌────────────────────────────┐ │
 │  │ Product Grid │  │ Chat Transcript  │  │ Order Receipt              │ │
 │  │ (with images)│  │ (real-time)      │  │ (shows on order complete)  │ │
@@ -43,8 +43,8 @@ Welcome to the **AI Voice Agents Challenge** by [murf.ai](https://murf.ai)!
           │                   │                           │
           ▼                   ▼                           ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                         BACKEND (Python Agent)                           │
-│                                                                          │
+│                         BACKEND (Python Agent)                          │
+│                                                                         │
 │  ┌─────────────────────────────────────────────────────────────────────┐│
 │  │                     EcommerceAgent (Ava)                            ││
 │  │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌───────────────┐  ││
@@ -57,8 +57,8 @@ Welcome to the **AI Voice Agents Challenge** by [murf.ai](https://murf.ai)!
              ▼               ▼               ▼                ▼
       ┌──────────────────────────┐    ┌──────────────────────────┐
       │     DummyJSON API        │    │    Local orders.json     │
-      │  - 190+ products           │    │    - Order persistence   │
-      │  - 20+ categories          │    │    - ACP-style schema    │
+      │  - 190+ products         │    │    - Order persistence   │
+      │  - 20+ categories        │    │    - ACP-style schema    │
       │  - Images, ratings       │    │                          │
       └──────────────────────────┘    └──────────────────────────┘
 ```
