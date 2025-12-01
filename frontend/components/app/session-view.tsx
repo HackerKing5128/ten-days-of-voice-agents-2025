@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { motion } from 'motion/react';
 import type { AppConfig } from '@/app-config';
 import { ChatTranscript } from '@/components/app/chat-transcript';
 import { PreConnectMessage } from '@/components/app/preconnect-message';
+import { useSession } from '@/components/app/session-provider';
 import { TileLayout } from '@/components/app/tile-layout';
 import {
   AgentControlBar,
@@ -16,48 +16,8 @@ import { useDebugMode } from '@/hooks/useDebug';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '../livekit/scroll-area/scroll-area';
 
-const MotionBottom = motion.create('div');
-
 const IN_DEVELOPMENT = process.env.NODE_ENV !== 'production';
-const BOTTOM_VIEW_MOTION_PROPS = {
-  variants: {
-    visible: {
-      opacity: 1,
-      translateY: '0%',
-    },
-    hidden: {
-      opacity: 0,
-      translateY: '100%',
-    },
-  },
-  initial: 'hidden',
-  animate: 'visible',
-  exit: 'hidden',
-  transition: {
-    duration: 0.3,
-    delay: 0.5,
-    ease: 'easeOut',
-  },
-};
 
-interface FadeProps {
-  top?: boolean;
-  bottom?: boolean;
-  className?: string;
-}
-
-export function Fade({ top = false, bottom = false, className }: FadeProps) {
-  return (
-    <div
-      className={cn(
-        'from-background pointer-events-none h-4 bg-linear-to-b to-transparent',
-        top && 'bg-linear-to-b',
-        bottom && 'bg-linear-to-t',
-        className
-      )}
-    />
-  );
-}
 interface SessionViewProps {
   appConfig: AppConfig;
 }
@@ -65,12 +25,13 @@ interface SessionViewProps {
 export const SessionView = ({
   appConfig,
   ...props
-}: React.ComponentProps<'section'> & SessionViewProps) => {
+}: React.ComponentProps<'div'> & SessionViewProps) => {
   useConnectionTimeout(200_000);
   useDebugMode({ enabled: IN_DEVELOPMENT });
 
+  const { playerName } = useSession();
   const messages = useChatMessages();
-  const [chatOpen, setChatOpen] = useState(false);
+  const [chatInputOpen, setChatInputOpen] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   const controls: ControlBarControls = {
@@ -78,53 +39,109 @@ export const SessionView = ({
     microphone: true,
     chat: appConfig.supportsChatInput,
     camera: appConfig.supportsVideoInput,
-    screenShare: appConfig.supportsVideoInput,
+    screenShare: false,
   };
 
   useEffect(() => {
-    const lastMessage = messages.at(-1);
-    const lastMessageIsLocal = lastMessage?.from?.isLocal === true;
-
-    if (scrollAreaRef.current && lastMessageIsLocal) {
+    if (scrollAreaRef.current) {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
   }, [messages]);
 
   return (
-    <section className="bg-background relative z-10 h-full w-full overflow-hidden" {...props}>
-      {/* Chat Transcript */}
-      <div
-        className={cn(
-          'fixed inset-0 grid grid-cols-1 grid-rows-1',
-          !chatOpen && 'pointer-events-none'
-        )}
-      >
-        <Fade top className="absolute inset-x-4 top-0 h-40" />
-        <ScrollArea ref={scrollAreaRef} className="px-4 pt-40 pb-[150px] md:px-6 md:pb-[180px]">
-          <ChatTranscript
-            hidden={!chatOpen}
-            messages={messages}
-            className="mx-auto max-w-2xl space-y-3 transition-opacity duration-300 ease-out"
+    <div
+      className="flex h-screen w-full overflow-hidden bg-zinc-950 font-sans text-white"
+      {...props}
+    >
+      {/* ================= LEFT: MAIN CONTENT (Agent Visualizer) ================= */}
+      <div className="relative flex min-w-0 flex-1 flex-col">
+        {/* Animated Background */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -left-40 h-96 w-96 animate-pulse rounded-full bg-purple-600/20 blur-[120px]" />
+          <div
+            className="absolute -right-40 -bottom-40 h-96 w-96 animate-pulse rounded-full bg-cyan-500/20 blur-[120px]"
+            style={{ animationDelay: '1s' }}
           />
-        </ScrollArea>
+          <div
+            className="absolute top-1/2 left-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 animate-pulse rounded-full bg-lime-500/10 blur-[100px]"
+            style={{ animationDelay: '2s' }}
+          />
+        </div>
+
+        {/* Player Badge - Top Left */}
+        {playerName && (
+          <div className="absolute top-6 left-6 z-20">
+            <div className="flex items-center gap-2 rounded-full border border-lime-500/30 bg-black/60 px-4 py-2 backdrop-blur-md">
+              <div className="h-2.5 w-2.5 animate-pulse rounded-full bg-lime-400 shadow-[0_0_10px_rgba(163,230,53,0.5)]" />
+              <span className="text-sm font-medium text-gray-200">
+                Playing as <span className="font-bold text-lime-400">{playerName}</span>
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* Center: Large Agent Visualizer */}
+        <div className="relative flex flex-1 items-center justify-center">
+          <div className="scale-150 md:scale-[2]">
+            <TileLayout chatOpen={false} />
+          </div>
+        </div>
+
+        {/* Bottom: Pre-connect Message */}
+        {appConfig.isPreConnectBufferEnabled && (
+          <div className="absolute inset-x-0 bottom-8 z-10 px-6">
+            <PreConnectMessage messages={messages} className="mx-auto max-w-xl text-center" />
+          </div>
+        )}
       </div>
 
-      {/* Tile Layout */}
-      <TileLayout chatOpen={chatOpen} />
-
-      {/* Bottom */}
-      <MotionBottom
-        {...BOTTOM_VIEW_MOTION_PROPS}
-        className="fixed inset-x-3 bottom-0 z-50 md:inset-x-12"
-      >
-        {appConfig.isPreConnectBufferEnabled && (
-          <PreConnectMessage messages={messages} className="pb-4" />
-        )}
-        <div className="bg-background relative mx-auto max-w-2xl pb-3 md:pb-12">
-          <Fade bottom className="absolute inset-x-0 top-0 h-4 -translate-y-full" />
-          <AgentControlBar controls={controls} onChatOpenChange={setChatOpen} />
+      {/* ================= RIGHT: SIDEBAR ================= */}
+      <div className="z-30 flex w-80 shrink-0 flex-col border-l border-purple-500/20 bg-zinc-900/50 backdrop-blur-sm lg:w-96">
+        {/* Header */}
+        <div className="flex h-14 items-center justify-center border-b border-purple-500/20 bg-black/30">
+          <div className="flex items-center gap-2">
+            <div className="h-2 w-2 animate-pulse rounded-full bg-cyan-400" />
+            <span className="font-mono text-xs tracking-widest text-cyan-400/80 uppercase">
+              JAX is Live
+            </span>
+          </div>
         </div>
-      </MotionBottom>
-    </section>
+
+        {/* Mini Agent Visualizer */}
+        <div className="relative flex h-28 items-center justify-center overflow-hidden border-b border-purple-500/20 bg-black/20">
+          <div className="scale-75 opacity-80">
+            <TileLayout chatOpen={true} />
+          </div>
+        </div>
+
+        {/* Transcript Header */}
+        <div className="flex items-center justify-between border-b border-purple-500/20 bg-black/20 px-4 py-2">
+          <h3 className="font-mono text-[10px] tracking-widest text-purple-400/70 uppercase">
+            Live Transcript
+          </h3>
+          <div className="flex items-center gap-1">
+            <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-purple-400" />
+            <span className="font-mono text-[9px] text-purple-400/50">RECORDING</span>
+          </div>
+        </div>
+
+        {/* Transcript Content - Hidden Scrollbar */}
+        <ScrollArea
+          ref={scrollAreaRef}
+          className={cn(
+            'flex-1 p-4',
+            // Hide scrollbar across all browsers
+            '[-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
+          )}
+        >
+          <ChatTranscript messages={messages} className="space-y-3" />
+        </ScrollArea>
+
+        {/* Bottom: Controls */}
+        <div className="border-t border-purple-500/20 bg-black/30 p-4">
+          <AgentControlBar controls={controls} onChatOpenChange={setChatInputOpen} />
+        </div>
+      </div>
+    </div>
   );
 };

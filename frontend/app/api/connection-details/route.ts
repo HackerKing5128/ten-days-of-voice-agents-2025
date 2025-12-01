@@ -29,17 +29,21 @@ export async function POST(req: Request) {
       throw new Error('LIVEKIT_API_SECRET is not defined');
     }
 
-    // Parse agent configuration from request body
+    // Parse agent configuration and player name from request body
     const body = await req.json();
     const agentName: string = body?.room_config?.agents?.[0]?.agent_name;
+    const playerName: string = body?.playerName || 'Mysterious Stranger';
 
-    // Generate participant token
-    const participantName = 'user';
-    const participantIdentity = `voice_assistant_user_${Math.floor(Math.random() * 10_000)}`;
-    const roomName = `voice_assistant_room_${Math.floor(Math.random() * 10_000)}`;
+    // Generate participant token with player name
+    const participantIdentity = `improv_player_${Math.floor(Math.random() * 10_000)}`;
+    const roomName = `improv_battle_${Math.floor(Math.random() * 10_000)}`;
 
     const participantToken = await createParticipantToken(
-      { identity: participantIdentity, name: participantName },
+      {
+        identity: participantIdentity,
+        name: playerName,
+        metadata: JSON.stringify({ playerName }),
+      },
       roomName,
       agentName
     );
@@ -49,7 +53,7 @@ export async function POST(req: Request) {
       serverUrl: LIVEKIT_URL,
       roomName,
       participantToken: participantToken,
-      participantName,
+      participantName: playerName,
     };
     const headers = new Headers({
       'Cache-Control': 'no-store',

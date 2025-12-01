@@ -17,25 +17,31 @@ export interface AppConfig {
   // for LiveKit Cloud Sandbox
   sandboxId?: string;
   agentName?: string;
+
+  // Player configuration (for Improv Battle)
+  playerName?: string;
 }
 
 export const APP_CONFIG_DEFAULTS: AppConfig = {
-  companyName: 'LiveKit',
-  pageTitle: 'LiveKit Voice Agent',
-  pageDescription: 'A voice agent built with LiveKit',
+  companyName: 'Improv Battle',
+  pageTitle: 'IMPROV BATTLE - Voice Improv Game Show',
+  pageDescription: 'The wildest voice improv game show on the internet! Hosted by JAX.',
 
   supportsChatInput: true,
-  supportsVideoInput: true,
-  supportsScreenShare: true,
+  supportsVideoInput: false,
+  supportsScreenShare: false,
   isPreConnectBufferEnabled: true,
 
-  logo: '/lk-logo.svg',
-  accent: '#002cf2',
-  logoDark: '/lk-logo-dark.svg',
-  accentDark: '#1fd5f9',
-  startButtonText: 'Start call',
+  logo: '/day10-jax.svg',
+  accent: '#cc00ff',
+  logoDark: '/day10-jax.svg',
+  accentDark: '#00eaff',
+  startButtonText: 'Enter the Stage',
 
   // for LiveKit Cloud Sandbox
   sandboxId: undefined,
   agentName: undefined,
+
+  // Player configuration
+  playerName: undefined,
 };

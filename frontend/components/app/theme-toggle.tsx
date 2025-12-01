@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react';
 import { MonitorIcon, MoonIcon, SunIcon } from '@phosphor-icons/react';
 import { THEME_MEDIA_QUERY, THEME_STORAGE_KEY, cn } from '@/lib/utils';
 
+// Default to dark mode for Improv Battle
 const THEME_SCRIPT = `
   const doc = document.documentElement;
-  const theme = localStorage.getItem("${THEME_STORAGE_KEY}") ?? "system";
+  const theme = localStorage.getItem("${THEME_STORAGE_KEY}") ?? "dark";
 
   if (theme === "system") {
     if (window.matchMedia("${THEME_MEDIA_QUERY}").matches) {
@@ -53,7 +54,8 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
   const [theme, setTheme] = useState<ThemeMode | undefined>(undefined);
 
   useEffect(() => {
-    const storedTheme = (localStorage.getItem(THEME_STORAGE_KEY) as ThemeMode) ?? 'system';
+    // Default to dark for Improv Battle theme
+    const storedTheme = (localStorage.getItem(THEME_STORAGE_KEY) as ThemeMode) ?? 'dark';
 
     setTheme(storedTheme);
   }, []);

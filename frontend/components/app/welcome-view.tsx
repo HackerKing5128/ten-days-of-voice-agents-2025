@@ -1,26 +1,12 @@
-import { Button } from '@/components/livekit/button';
+'use client';
 
-function WelcomeImage() {
-  return (
-    <svg
-      width="64"
-      height="64"
-      viewBox="0 0 64 64"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="text-fg0 mb-4 size-16"
-    >
-      <path
-        d="M15 24V40C15 40.7957 14.6839 41.5587 14.1213 42.1213C13.5587 42.6839 12.7956 43 12 43C11.2044 43 10.4413 42.6839 9.87868 42.1213C9.31607 41.5587 9 40.7957 9 40V24C9 23.2044 9.31607 22.4413 9.87868 21.8787C10.4413 21.3161 11.2044 21 12 21C12.7956 21 13.5587 21.3161 14.1213 21.8787C14.6839 22.4413 15 23.2044 15 24ZM22 5C21.2044 5 20.4413 5.31607 19.8787 5.87868C19.3161 6.44129 19 7.20435 19 8V56C19 56.7957 19.3161 57.5587 19.8787 58.1213C20.4413 58.6839 21.2044 59 22 59C22.7956 59 23.5587 58.6839 24.1213 58.1213C24.6839 57.5587 25 56.7957 25 56V8C25 7.20435 24.6839 6.44129 24.1213 5.87868C23.5587 5.31607 22.7956 5 22 5ZM32 13C31.2044 13 30.4413 13.3161 29.8787 13.8787C29.3161 14.4413 29 15.2044 29 16V48C29 48.7957 29.3161 49.5587 29.8787 50.1213C30.4413 50.6839 31.2044 51 32 51C32.7956 51 33.5587 50.6839 34.1213 50.1213C34.6839 49.5587 35 48.7957 35 48V16C35 15.2044 34.6839 14.4413 34.1213 13.8787C33.5587 13.3161 32.7956 13 32 13ZM42 21C41.2043 21 40.4413 21.3161 39.8787 21.8787C39.3161 22.4413 39 23.2044 39 24V40C39 40.7957 39.3161 41.5587 39.8787 42.1213C40.4413 42.6839 41.2043 43 42 43C42.7957 43 43.5587 42.6839 44.1213 42.1213C44.6839 41.5587 45 40.7957 45 40V24C45 23.2044 44.6839 22.4413 44.1213 21.8787C43.5587 21.3161 42.7957 21 42 21ZM52 17C51.2043 17 50.4413 17.3161 49.8787 17.8787C49.3161 18.4413 49 19.2044 49 20V44C49 44.7957 49.3161 45.5587 49.8787 46.1213C50.4413 46.6839 51.2043 47 52 47C52.7957 47 53.5587 46.6839 54.1213 46.1213C54.6839 45.5587 55 44.7957 55 44V20C55 19.2044 54.6839 18.4413 54.1213 17.8787C53.5587 17.3161 52.7957 17 52 17Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
+import { useState } from 'react';
+import Image from 'next/image';
+import { Button } from '@/components/livekit/button';
 
 interface WelcomeViewProps {
   startButtonText: string;
-  onStartCall: () => void;
+  onStartCall: (playerName: string) => void;
 }
 
 export const WelcomeView = ({
@@ -28,34 +14,149 @@ export const WelcomeView = ({
   onStartCall,
   ref,
 }: React.ComponentProps<'div'> & WelcomeViewProps) => {
-  return (
-    <div ref={ref}>
-      <section className="bg-background flex flex-col items-center justify-center text-center">
-        <WelcomeImage />
+  const [playerName, setPlayerName] = useState('');
+  const [isHovered, setIsHovered] = useState(false);
 
-        <p className="text-foreground max-w-prose pt-1 leading-6 font-medium">
-          Chat live with your voice AI agent
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const name = playerName.trim() || 'Mysterious Stranger';
+    onStartCall(name);
+  };
+
+  const isNameValid = playerName.trim().length > 0;
+
+  return (
+    <div ref={ref} className="relative min-h-screen">
+      {/* Animated background gradients */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute -top-40 -left-40 h-80 w-80 animate-pulse rounded-full bg-purple-600/20 blur-[100px]" />
+        <div
+          className="absolute -right-40 -bottom-40 h-80 w-80 animate-pulse rounded-full bg-cyan-500/20 blur-[100px]"
+          style={{ animationDelay: '1s' }}
+        />
+        <div
+          className="absolute top-1/2 left-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 animate-pulse rounded-full bg-lime-400/10 blur-[120px]"
+          style={{ animationDelay: '0.5s' }}
+        />
+      </div>
+
+      <section className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 py-8">
+        {/* Logo */}
+        <div className="mb-6 transform transition-transform duration-300 hover:scale-105">
+          <Image
+            src="/day10-jax.svg"
+            alt="IMPROV BATTLE - Hosted by JAX"
+            width={400}
+            height={120}
+            priority
+            className="h-auto w-full max-w-[400px] drop-shadow-2xl"
+          />
+        </div>
+
+        {/* Tagline */}
+        <p className="mb-8 max-w-md text-center text-sm text-gray-400 md:text-base">
+          The wildest voice improv game show on the internet!
+          <br />
+          <span className="text-cyan-400">Think you can improv your way out?</span>
         </p>
 
-        <Button variant="primary" size="lg" onClick={onStartCall} className="mt-6 w-64 font-mono">
-          {startButtonText}
-        </Button>
+        {/* Name Input Form */}
+        <form onSubmit={handleSubmit} className="w-full max-w-sm space-y-6">
+          {/* Stage Name Input */}
+          <div className="group relative">
+            <label
+              htmlFor="stageName"
+              className="mb-2 block text-xs font-medium tracking-wider text-gray-500 uppercase"
+            >
+              Your Stage Name
+            </label>
+            <div className="relative">
+              <input
+                id="stageName"
+                type="text"
+                value={playerName}
+                onChange={(e) => setPlayerName(e.target.value)}
+                placeholder="Enter your name..."
+                maxLength={30}
+                className="w-full rounded-lg border border-gray-700 bg-black/50 px-4 py-3 text-lg text-white placeholder-gray-500 transition-all duration-300 group-hover:border-gray-600 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 focus:outline-none"
+                autoComplete="off"
+                autoFocus
+              />
+              {/* Glow effect on focus */}
+              <div className="absolute inset-0 -z-10 rounded-lg bg-linear-to-r from-purple-600/20 via-cyan-500/20 to-lime-400/20 opacity-0 blur-xl transition-opacity duration-300 group-focus-within:opacity-100" />
+            </div>
+          </div>
+
+          {/* Enter Button */}
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
+            disabled={!isNameValid}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className={`relative w-full overflow-hidden py-4 font-mono text-lg transition-all duration-300 ${
+              isNameValid
+                ? 'bg-linear-to-r from-purple-600 via-cyan-500 to-purple-600 text-white shadow-lg shadow-purple-500/25 hover:from-purple-500 hover:via-cyan-400 hover:to-purple-500'
+                : 'cursor-not-allowed bg-gray-800 text-gray-500'
+            } ${isHovered && isNameValid ? 'scale-[1.02] shadow-xl shadow-cyan-500/30' : ''} `}
+            style={{
+              backgroundSize: isNameValid ? '200% 100%' : '100% 100%',
+              animation: isNameValid ? 'gradient-shift 3s ease infinite' : 'none',
+            }}
+          >
+            <span className="relative z-10 flex items-center justify-center gap-2">
+              🎤 {startButtonText}
+            </span>
+          </Button>
+        </form>
+
+        {/* Bottom hint */}
+        <p className="mt-8 max-w-xs text-center text-xs text-gray-600">
+          JAX is waiting in the arena...
+          <br />
+          Voice your way to improv glory!
+        </p>
       </section>
 
-      <div className="fixed bottom-5 left-0 flex w-full items-center justify-center">
-        <p className="text-muted-foreground max-w-prose pt-1 text-xs leading-5 font-normal text-pretty md:text-sm">
-          Need help getting set up? Check out the{' '}
+      {/* Footer */}
+      <div className="fixed right-0 bottom-4 left-0 flex justify-center">
+        <p className="text-xs text-gray-600">
+          Powered by{' '}
           <a
+            href="https://murf.ai"
             target="_blank"
             rel="noopener noreferrer"
-            href="https://docs.livekit.io/agents/start/voice-ai/"
-            className="underline"
+            className="text-lime-400 transition-colors hover:text-lime-300"
           >
-            Voice AI quickstart
+            Murf AI
+          </a>{' '}
+          ×{' '}
+          <a
+            href="https://livekit.io"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-cyan-400 transition-colors hover:text-cyan-300"
+          >
+            LiveKit
           </a>
-          .
         </p>
       </div>
+
+      {/* CSS for gradient animation */}
+      <style jsx>{`
+        @keyframes gradient-shift {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+      `}</style>
     </div>
   );
 };

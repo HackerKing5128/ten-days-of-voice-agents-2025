@@ -24,9 +24,9 @@ const VIEW_MOTION_PROPS = {
   exit: 'hidden',
   transition: {
     duration: 0.5,
-    ease: 'linear',
+    ease: 'linear' as const,
   },
-};
+} as const;
 
 export function ViewController() {
   const room = useRoomContext();
@@ -43,6 +43,11 @@ export function ViewController() {
     }
   };
 
+  // Handle start with player name
+  const handleStartCall = (playerName: string) => {
+    startSession(playerName);
+  };
+
   return (
     <AnimatePresence mode="wait">
       {/* Welcome screen */}
@@ -51,7 +56,7 @@ export function ViewController() {
           key="welcome"
           {...VIEW_MOTION_PROPS}
           startButtonText={appConfig.startButtonText}
-          onStartCall={startSession}
+          onStartCall={handleStartCall}
         />
       )}
       {/* Session view */}
