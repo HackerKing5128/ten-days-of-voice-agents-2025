@@ -1,176 +1,185 @@
-# AI Voice Agents Challenge - Starter Repository
+# Day 10 – Voice Improv Battle (JAX) 🎤🎭
 
-Welcome to the **AI Voice Agents Challenge** by [murf.ai](https://murf.ai)!
+> Part of the **AI Voice Agents Challenge** by [Murf AI](https://murf.ai)
 
-## About the Challenge
+<picture>
+  <img src="./assets/day10-jax-landing-page.png" alt="IMPROV BATTLE - Landing Page">
+</picture>
 
-We just launched **Murf Falcon** – the consistently fastest TTS API, and you're going to be among the first to test it out in ways never thought before!
+## 🎬 What I Built
 
-**Build 10 AI Voice Agents over the course of 10 Days** along with help from our devs and the community champs, and win rewards!
+**IMPROV BATTLE** — the wildest voice-first improv game show on the internet, hosted by **JAX**, an AI game show host with sharp wit and unpredictable energy!
 
-### How It Works
+- Voice-first improv game show experience
+- AI host that initiates conversation and guides the game
+- 15 hilarious improv scenarios to improvise through
+- Dynamic feedback system with varied reactions
+- Cyberpunk game show themed UI
 
-- One task to be provided everyday along with a GitHub repo for reference
-- Build a voice agent with specific personas and skills
-- Post on GitHub and share with the world on LinkedIn!
+### ✨ Features
 
-## Repository Structure
+- 🎤 **Agent persona:** JAX — high-energy, witty game show host using Murf Falcon TTS (Terrell voice)
+- 🎭 **15 Improv Scenarios:** From "Time-Travel Tech Support" to "Villain TED Talk"
+- 🎮 **Game State Management:** Function tools for `start_game`, `present_scenario`, `react_to_performance`, `end_game`, `early_exit`
+- 🔊 **Agent-First Initiation:** JAX greets players automatically when they enter the arena
+- 💜 **Cyberpunk UI:** Neon purple/cyan/lime themed interface with animated visualizers
 
-This is a **monorepo** that contains both the backend and frontend for building voice agent applications. It's designed to be your starting point for each day's challenge task.
+<picture>
+  <img src="./assets/day10-jax-arena.png" alt="IMPROV BATTLE - Arena Session">
+</picture>
+
+---
+
+## 🎪 Game Flow
 
 ```
-falcon-tdova-nov25-livekit/
-├── backend/          # LiveKit Agents backend with Murf Falcon TTS
-├── frontend/         # React/Next.js frontend for voice interaction
-├── start_app.sh      # Convenience script to start all services
-└── README.md         # This file
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           IMPROV BATTLE GAME FLOW                           │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│   ┌─────────────┐      ┌─────────────┐      ┌─────────────────────────┐     │
+│   │   WELCOME   │ ──▶  │   PLAYER    │ ──▶ │    ENTER ARENA          │     │
+│   │   SCREEN    │      │  NAME INPUT │      │  (JAX greets player)    │     │
+│   └─────────────┘      └─────────────┘      └───────────┬─────────────┘     │
+│                                                         │                   │
+│                                                         ▼                   │
+│   ┌─────────────────────────────────────────────────────────────────────┐  │
+│   │                        GAME LOOP (2-5 rounds)                       │  │
+│   │  ┌──────────┐    ┌──────────────┐    ┌──────────┐    ┌──────────┐  │  │
+│   │  │ SCENARIO │ ▶  │   PLAYER     │ ▶  │   JAX    │ ▶  │  NEXT    │  │  │
+│   │  │ PRESENT  │    │  IMPROVISES  │    │ REACTS   │    │  ROUND   │  │  │
+│   │  └──────────┘    └──────────────┘    └──────────┘    └──────────┘  │  │
+│   └─────────────────────────────────────────────────────────────────────┘  │
+│                                                         │                   │
+│                                                         ▼                   │
+│                              ┌─────────────────────────────────────┐        │
+│                              │        DRAMATIC CLOSING             │        │
+│                              │  - Performance summary              │        │
+│                              │  - Memorable moments                │        │
+│                              │  - Player improv style              │        │
+│                              └─────────────────────────────────────┘        │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Backend
+---
 
-The backend is based on [LiveKit's agent-starter-python](https://github.com/livekit-examples/agent-starter-python) with modifications to integrate **Murf Falcon TTS** for ultra-fast, high-quality voice synthesis.
+## 🛠️ Tech Stack
 
-**Features:**
+| Component | Technology |
+|-----------|------------|
+| 🎙️ TTS | Murf Falcon (en-US-terrell voice) |
+| 👂 STT | Deepgram Nova-3 |
+| 🧠 LLM | Google Gemini 2.5 Flash |
+| 🔈 Voice Pipeline | LiveKit Agents |
+| ⚛️ Frontend | Next.js 15 + Tailwind CSS 4 |
+| 🎨 Animations | Motion (Framer Motion) |
 
-- Complete voice AI agent framework using LiveKit Agents
-- Murf Falcon TTS integration for fastest text-to-speech
-- LiveKit Turn Detector for contextually-aware speaker detection
-- Background voice cancellation
-- Integrated metrics and logging
-- Complete test suite with evaluation framework
-- Production-ready Dockerfile
+---
 
-[→ Backend Documentation](./backend/README.md)
+## 📁 Project Structure (Day 10 highlights)
 
-### Frontend
-
-The frontend is based on [LiveKit's agent-starter-react](https://github.com/livekit-examples/agent-starter-react), providing a modern, beautiful UI for interacting with your voice agents.
-
-**Features:**
-
-- Real-time voice interaction with LiveKit Agents
-- Camera video streaming support
-- Screen sharing capabilities
-- Audio visualization and level monitoring
-- Light/dark theme switching
-- Highly customizable branding and UI
-
-[→ Frontend Documentation](./frontend/README.md)
-
-## Quick Start
-
-### Prerequisites
-
-Make sure you have the following installed:
-
-- Python 3.9+ with [uv](https://docs.astral.sh/uv/) package manager
-- Node.js 18+ with pnpm
-- [LiveKit CLI](https://docs.livekit.io/home/cli/cli-setup) (optional but recommended)
-- [LiveKit Server](https://docs.livekit.io/home/self-hosting/local/) for local development
-
-### 1. Clone the Repository
-
-```bash
-git clone <your-repo-url>
-cd falcon-tdova-nov25-livekit
+```
+├── backend/
+│   └── src/
+│       └── agent.py              # ImprovBattleHost (JAX) with game state & function tools
+├── frontend/
+│   ├── components/
+│   │   └── app/
+│   │       ├── welcome-view.tsx      # Player name input + animated stage logo
+│   │       ├── session-view.tsx      # Split layout (visualizer + transcript)
+│   │       ├── improv-visualizer.tsx # Enhanced audio visualizer with speaker detection
+│   │       ├── improv-transcript.tsx # Color-coded game show transcript
+│   │       └── improv-control-bar.tsx # Chat input + mic toggle + game controls
+│   ├── styles/
+│   │   └── globals.css           # Cyberpunk theme CSS variables
+│   └── public/
+│       ├── day10-jax.svg         # Main logo
+│       └── day10-jax-center.svg  # Animated stage logo
+├── assets/
+│   ├── day10-jax-landing-page.png
+│   └── day10-jax-arena.png
+└── challenges/
+    └── Day 10 Task.md
 ```
 
-### 2. Backend Setup
+---
 
-```bash
-cd backend
+## 🎭 Improv Scenarios (Sample)
 
-# Install dependencies
-uv sync
+| # | Title | Character |
+|---|-------|-----------|
+| 1 | Time-Travel Tech Support | Tech support explaining TikTok to Benjamin Franklin |
+| 2 | Escaped Dinner | Waiter informing customer their lobster escaped |
+| 3 | Alien Job Interview | Alien from Planet Zorblax applying to be a barista |
+| 4 | Superhero HR Meeting | HR manager reviewing an underperforming superhero |
+| 5 | Villain TED Talk | Supervillain giving work-life balance tips |
+| ... | +10 more scenarios | Various hilarious situations |
 
-# Copy environment file and configure
-cp .env.example .env.local
+---
 
-# Edit .env.local with your credentials:
-# - LIVEKIT_URL
-# - LIVEKIT_API_KEY
-# - LIVEKIT_API_SECRET
-# - MURF_API_KEY (for Falcon TTS)
-# - GOOGLE_API_KEY (for Gemini LLM)
-# - DEEPGRAM_API_KEY (for Deepgram STT)
+## 🚀 Quick Start (run Day 10 locally)
 
-# Download required models
-uv run python src/agent.py download-files
-```
+1. Start LiveKit Server (dev mode):
 
-For LiveKit Cloud users, you can automatically populate credentials:
-
-```bash
-lk cloud auth
-lk app env -w -d .env.local
-```
-
-### 3. Frontend Setup
-
-```bash
-cd frontend
-
-# Install dependencies
-pnpm install
-
-# Copy environment file and configure
-cp .env.example .env.local
-
-# Edit .env.local with the same LiveKit credentials
-```
-
-### 4. Run the Application
-
-#### Install livekit server
-
-```bash
-brew install livekit
-```
-
-You have two options:
-
-#### Option A: Use the convenience script (runs everything)
-
-```bash
-# From the root directory
-chmod +x start_app.sh
-./start_app.sh
-```
-
-This will start:
-
-- LiveKit Server (in dev mode)
-- Backend agent (listening for connections)
-- Frontend app (at http://localhost:3000)
-
-#### Option B: Run services individually
-
-```bash
-# Terminal 1 - LiveKit Server
+```powershell
 livekit-server --dev
+```
 
-# Terminal 2 - Backend Agent
+2. Run the backend agent (from `backend`):
+
+```powershell
 cd backend
 uv run python src/agent.py dev
+```
 
-# Terminal 3 - Frontend
+3. Run the frontend (from `frontend`):
+
+```powershell
 cd frontend
 pnpm dev
 ```
 
-Then open http://localhost:3000 in your browser!
+4. Open `http://localhost:3000`:
+   - Enter your stage name
+   - Click "Enter the Arena"
+   - JAX will greet you and start the game automatically!
+   - Try improv commands like "let's do 3 rounds" or just go with the flow
 
-## Daily Challenge Tasks
+---
 
-Each day, you'll receive a new task that builds upon your voice agent. The tasks will help you:
+## 🧭 Where to look in the code
 
-- Implement different personas and conversation styles
-- Add custom tools and capabilities
-- Integrate with external APIs
-- Build domain-specific agents (customer service, tutoring, etc.)
-- Optimize performance and user experience
+| What | Where |
+|------|-------|
+| JAX Agent & Game Logic | `backend/src/agent.py` |
+| Welcome Page | `frontend/components/app/welcome-view.tsx` |
+| Session View (main UI) | `frontend/components/app/session-view.tsx` |
+| Audio Visualizer | `frontend/components/app/improv-visualizer.tsx` |
+| Chat Transcript | `frontend/components/app/improv-transcript.tsx` |
+| Control Bar | `frontend/components/app/improv-control-bar.tsx` |
+| Cyberpunk Theme | `frontend/styles/globals.css` |
 
-**Stay tuned for daily task announcements!**
+---
+
+## 🎨 Theme Colors
+
+| Color | Hex | Usage |
+|-------|-----|-------|
+| 💜 Purple | `#cc00ff` | Primary accent, JAX branding |
+| 💙 Cyan | `#00eaff` | JAX speaking indicator |
+| 💚 Lime | `#ccff00` | Player speaking, mic active |
+
+---
+
+## 🛠️ Notes & Troubleshooting
+
+- **Agent doesn't speak first?** Make sure the backend agent was restarted after the latest changes. The greeting is triggered in `session.generate_reply()` after connection.
+- **TypeScript module errors?** Try restarting the TypeScript server in VS Code (`Ctrl+Shift+P` → "TypeScript: Restart TS Server")
+- **STT/TTS connection errors?** Check your API keys in `.env.local` (`DEEPGRAM_API_KEY`, `MURF_API_KEY`, `GOOGLE_API_KEY`)
+
+More details and the task description: `challenges/Day 10 Task.md`
+
+---
 
 ## Documentation & Resources
 
@@ -203,12 +212,12 @@ This is a challenge repository, but we encourage collaboration and knowledge sha
 
 This project is based on MIT-licensed templates from LiveKit and includes integration with Murf Falcon. See individual LICENSE files in backend and frontend directories for details.
 
-## Have Fun!
+## 🎉 Challenge Complete!
 
-Remember, the goal is to learn, experiment, and build amazing voice AI agents. Don't hesitate to be creative and push the boundaries of what's possible with Murf Falcon and LiveKit!
+**Day 10 marks the final day of the 10 Days of Voice Agents Challenge!**
 
-Good luck with the challenge!
+Thanks for following along this journey of building increasingly creative voice agents. From simple conversational agents to game show hosts - it's been a wild ride!
 
 ---
 
-Built for the AI Voice Agents Challenge by murf.ai
+Built for the AI Voice Agents Challenge by murf.ai 🎤
