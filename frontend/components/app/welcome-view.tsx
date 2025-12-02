@@ -41,20 +41,20 @@ export const WelcomeView = ({
       </div>
 
       <section className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 py-8">
-        {/* Logo */}
-        <div className="mb-6 transform transition-transform duration-300 hover:scale-105">
+        {/* Stage Logo - Animated microphone with "Ready for Challenger" */}
+        <div className="mb-4 transform transition-transform duration-300 hover:scale-105">
           <Image
-            src="/day10-jax.svg"
-            alt="IMPROV BATTLE - Hosted by JAX"
-            width={400}
-            height={120}
+            src="/day10-jax-center.svg"
+            alt="IMPROV BATTLE Stage - Ready for Challenger"
+            width={500}
+            height={400}
             priority
-            className="h-auto w-full max-w-[400px] drop-shadow-2xl"
+            className="h-auto w-full max-w-[450px] drop-shadow-2xl"
           />
         </div>
 
         {/* Tagline */}
-        <p className="mb-8 max-w-md text-center text-sm text-gray-400 md:text-base">
+        <p className="mb-6 max-w-md text-center text-sm text-gray-400 md:text-base">
           The wildest voice improv game show on the internet!
           <br />
           <span className="text-cyan-400">Think you can improv your way out?</span>
@@ -112,10 +112,10 @@ export const WelcomeView = ({
         </form>
 
         {/* Bottom hint */}
-        <p className="mt-8 max-w-xs text-center text-xs text-gray-600">
-          JAX is waiting in the arena...
+        <p className="mt-6 max-w-xs text-center text-xs text-gray-600">
+          Enter your stage name and step into the arena!
           <br />
-          Voice your way to improv glory!
+          <span className="text-purple-400">JAX is ready to host your improv journey</span>
         </p>
       </section>
 
