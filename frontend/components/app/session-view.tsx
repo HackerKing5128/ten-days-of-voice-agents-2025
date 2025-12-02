@@ -1,65 +1,20 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import type { AppConfig } from '@/app-config';
-import { ChatTranscript } from '@/components/app/chat-transcript';
-import { PreConnectMessage } from '@/components/app/preconnect-message';
 import { useSession } from '@/components/app/session-provider';
-import { TileLayout } from '@/components/app/tile-layout';
-import {
-  AgentControlBar,
-  type ControlBarControls,
-} from '@/components/livekit/agent-control-bar/agent-control-bar';
 import { useChatMessages } from '@/hooks/useChatMessages';
 import { useConnectionTimeout } from '@/hooks/useConnectionTimout';
 import { useDebugMode } from '@/hooks/useDebug';
 import { cn } from '@/lib/utils';
-import { ScrollArea } from '../livekit/scroll-area/scroll-area';
+import { ImprovVisualizer } from './improv-visualizer';
+import { ImprovTranscript } from './improv-transcript';
+import { ImprovControlBar } from './improv-control-bar';
 
-const MotionBottom = motion.create('div');
+const MotionDiv = motion.create('div');
 
 const IN_DEVELOPMENT = process.env.NODE_ENV !== 'production';
-
-const BOTTOM_VIEW_MOTION_PROPS = {
-  variants: {
-    visible: {
-      opacity: 1,
-      translateY: '0%',
-    },
-    hidden: {
-      opacity: 0,
-      translateY: '100%',
-    },
-  },
-  initial: 'hidden',
-  animate: 'visible',
-  exit: 'hidden',
-  transition: {
-    duration: 0.3,
-    delay: 0.5,
-    ease: 'easeOut' as const,
-  },
-} as const;
-
-interface FadeProps {
-  top?: boolean;
-  bottom?: boolean;
-  className?: string;
-}
-
-export function Fade({ top = false, bottom = false, className }: FadeProps) {
-  return (
-    <div
-      className={cn(
-        'pointer-events-none h-4 to-transparent',
-        top && 'bg-gradient-to-b from-zinc-950',
-        bottom && 'bg-gradient-to-t from-zinc-950',
-        className
-      )}
-    />
-  );
-}
 
 interface SessionViewProps {
   appConfig: AppConfig;
@@ -74,128 +29,169 @@ export const SessionView = ({
 
   const { playerName } = useSession();
   const messages = useChatMessages();
-  const [chatOpen, setChatOpen] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const [sessionTime, setSessionTime] = useState(0);
 
-  const controls: ControlBarControls = {
-    leave: true,
-    microphone: true,
-    chat: appConfig.supportsChatInput,
-    camera: appConfig.supportsVideoInput,
-    screenShare: appConfig.supportsVideoInput,
-  };
-
+  // Session timer
   useEffect(() => {
-    const lastMessage = messages.at(-1);
-    const lastMessageIsLocal = lastMessage?.from?.isLocal === true;
+    const interval = setInterval(() => {
+      setSessionTime((prev) => prev + 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
-    if (scrollAreaRef.current && lastMessageIsLocal) {
+  // Auto-scroll transcript
+  useEffect(() => {
+    if (scrollAreaRef.current) {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
   }, [messages]);
 
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
   return (
     <section
-      className="relative z-10 h-full w-full overflow-hidden bg-zinc-950"
+      className="relative z-10 flex h-full w-full overflow-hidden bg-zinc-950"
       {...props}
     >
       {/* ============ ANIMATED BACKGROUND ============ */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         {/* Purple glow - top left */}
-        <div className="absolute -top-32 -left-32 h-[500px] w-[500px] rounded-full bg-purple-600/15 blur-[150px]" />
+        <div className="absolute -top-32 -left-32 h-[600px] w-[600px] rounded-full bg-purple-600/20 blur-[180px]" />
         {/* Cyan glow - bottom right */}
-        <div className="absolute -right-32 -bottom-32 h-[500px] w-[500px] rounded-full bg-cyan-500/15 blur-[150px]" />
-        {/* Lime accent - center */}
-        <div className="absolute top-1/2 left-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-lime-500/5 blur-[120px]" />
-        
+        <div className="absolute -right-32 -bottom-32 h-[600px] w-[600px] rounded-full bg-cyan-500/20 blur-[180px]" />
+        {/* Lime accent - center left */}
+        <div className="absolute top-1/3 left-1/4 h-[400px] w-[400px] rounded-full bg-lime-500/10 blur-[150px]" />
+
+        {/* Animated sound wave lines */}
+        <svg className="absolute inset-0 h-full w-full opacity-[0.03]">
+          <defs>
+            <pattern id="soundWaves" x="0" y="0" width="100" height="20" patternUnits="userSpaceOnUse">
+              <path
+                d="M0 10 Q25 0 50 10 T100 10"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="0.5"
+                className="text-cyan-500"
+              />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#soundWaves)" />
+        </svg>
+
         {/* Subtle grid pattern */}
-        <div 
-          className="absolute inset-0 opacity-[0.02]"
+        <div
+          className="absolute inset-0 opacity-[0.015]"
           style={{
             backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
                               linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-            backgroundSize: '50px 50px',
+            backgroundSize: '60px 60px',
           }}
         />
       </div>
 
-      {/* ============ PLAYER BADGE - TOP RIGHT ============ */}
-      {playerName && (
-        <div className="fixed top-20 right-4 z-[60] md:top-24 md:right-6">
-          <div className="flex items-center gap-2.5 rounded-full border border-lime-500/30 bg-black/70 px-4 py-2 shadow-lg shadow-lime-500/5 backdrop-blur-md">
+      {/* ============ TOP STATUS BAR ============ */}
+      <MotionDiv
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+        className="fixed top-16 left-1/2 z-60 -translate-x-1/2 md:top-20"
+      >
+        <div className="flex items-center gap-4 rounded-full border border-white/10 bg-black/60 px-6 py-2.5 backdrop-blur-xl">
+          {/* JAX Live Indicator */}
+          <div className="flex items-center gap-2">
             <div className="relative">
-              <div className="h-2.5 w-2.5 rounded-full bg-lime-400" />
-              <div className="absolute inset-0 animate-ping rounded-full bg-lime-400 opacity-75" />
+              <div className="h-2 w-2 rounded-full bg-cyan-400" />
+              <div className="absolute inset-0 animate-ping rounded-full bg-cyan-400 opacity-75" />
             </div>
-            <span className="text-sm font-medium text-gray-300">
-              Playing as{' '}
-              <span className="font-bold text-lime-400">{playerName}</span>
+            <span className="font-mono text-[10px] font-bold tracking-widest text-cyan-400 uppercase">
+              JAX Live
             </span>
           </div>
-        </div>
-      )}
 
-      {/* ============ JAX STATUS INDICATOR - TOP LEFT ============ */}
-      <div className="fixed top-20 left-4 z-[60] md:top-24 md:left-6">
-        <div className="flex items-center gap-2.5 rounded-full border border-cyan-500/30 bg-black/70 px-4 py-2 shadow-lg shadow-cyan-500/5 backdrop-blur-md">
-          <div className="relative">
-            <div className="h-2.5 w-2.5 rounded-full bg-cyan-400" />
-            <div className="absolute inset-0 animate-pulse rounded-full bg-cyan-400 opacity-50" />
+          {/* Divider */}
+          <div className="h-4 w-px bg-white/20" />
+
+          {/* Session Timer */}
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-[10px] tracking-wider text-gray-500 uppercase">
+              Session
+            </span>
+            <span className="font-mono text-sm font-bold tabular-nums text-white">
+              {formatTime(sessionTime)}
+            </span>
           </div>
-          <span className="font-mono text-xs font-medium tracking-wider text-cyan-400 uppercase">
-            JAX is Live
-          </span>
-        </div>
-      </div>
 
-      {/* ============ CHAT TRANSCRIPT (TOGGLE-ABLE) ============ */}
-      <div
-        className={cn(
-          'fixed inset-0 z-20 grid grid-cols-1 grid-rows-1',
-          !chatOpen && 'pointer-events-none'
-        )}
-      >
-        <Fade top className="absolute inset-x-4 top-0 h-40" />
-        <ScrollArea
-          ref={scrollAreaRef}
-          className={cn(
-            'px-4 pt-40 pb-[150px] md:px-6 md:pb-[180px]',
-            // Custom scrollbar styling
-            '[&::-webkit-scrollbar]:w-1.5',
-            '[&::-webkit-scrollbar-track]:bg-transparent',
-            '[&::-webkit-scrollbar-thumb]:rounded-full',
-            '[&::-webkit-scrollbar-thumb]:bg-purple-500/30',
-            '[&::-webkit-scrollbar-thumb:hover]:bg-purple-500/50'
+          {/* Divider */}
+          <div className="h-4 w-px bg-white/20" />
+
+          {/* Player Name */}
+          {playerName && (
+            <div className="flex items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-lime-400" />
+              <span className="text-sm font-medium text-lime-400">{playerName}</span>
+            </div>
           )}
-        >
-          <ChatTranscript
-            hidden={!chatOpen}
-            messages={messages}
-            className="mx-auto max-w-2xl space-y-3 transition-opacity duration-300 ease-out"
-          />
-        </ScrollArea>
-      </div>
+        </div>
+      </MotionDiv>
 
-      {/* ============ AGENT VISUALIZER (TILE LAYOUT) ============ */}
-      <TileLayout chatOpen={chatOpen} />
+      {/* ============ MAIN CONTENT AREA ============ */}
+      <div className="flex flex-1 flex-col lg:flex-row">
+        {/* LEFT: Visualizer Area */}
+        <div className="relative flex flex-1 items-center justify-center">
+          <ImprovVisualizer />
+        </div>
+
+        {/* RIGHT: Always-Visible Transcript Sidebar */}
+        <MotionDiv
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="z-30 flex w-full flex-col border-l border-purple-500/20 bg-black/40 backdrop-blur-md lg:w-[380px]"
+        >
+          {/* Transcript Header */}
+          <div className="flex items-center justify-between border-b border-purple-500/20 bg-black/30 px-4 py-3">
+            <div className="flex items-center gap-2">
+              <div className="relative">
+                <div className="h-2 w-2 rounded-full bg-red-500" />
+                <div className="absolute inset-0 animate-pulse rounded-full bg-red-500 opacity-50" />
+              </div>
+              <span className="font-mono text-[10px] font-bold tracking-widest text-red-400 uppercase">
+                Live Transcript
+              </span>
+            </div>
+            <span className="font-mono text-[9px] tracking-wider text-gray-600">
+              {messages.length} messages
+            </span>
+          </div>
+
+          {/* Transcript Content */}
+          <div
+            ref={scrollAreaRef}
+            className={cn(
+              'flex-1 overflow-y-auto p-4',
+              // Hide scrollbar
+              '[-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
+            )}
+          >
+            <ImprovTranscript messages={messages} />
+          </div>
+        </MotionDiv>
+      </div>
 
       {/* ============ BOTTOM CONTROLS ============ */}
-      <MotionBottom
-        {...BOTTOM_VIEW_MOTION_PROPS}
-        className="fixed inset-x-3 bottom-0 z-50 md:inset-x-12"
+      <MotionDiv
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+        className="fixed inset-x-4 bottom-4 z-50 md:inset-x-auto md:bottom-8 md:left-1/2 md:-translate-x-1/2"
       >
-        {appConfig.isPreConnectBufferEnabled && (
-          <PreConnectMessage messages={messages} className="pb-4" />
-        )}
-        <div className="relative mx-auto max-w-2xl pb-3 md:pb-12">
-          <Fade bottom className="absolute inset-x-0 top-0 h-4 -translate-y-full" />
-          
-          {/* Control bar with subtle background */}
-          <div className="rounded-2xl border border-white/5 bg-black/40 p-2 backdrop-blur-xl">
-            <AgentControlBar controls={controls} onChatOpenChange={setChatOpen} />
-          </div>
-        </div>
-      </MotionBottom>
+        <ImprovControlBar appConfig={appConfig} />
+      </MotionDiv>
     </section>
   );
 };
