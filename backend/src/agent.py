@@ -506,6 +506,20 @@ async def entrypoint(ctx: JobContext):
         ),
     )
 
+    # JAX initiates the conversation - agent-first!
+    greeting = f"""Welcome to IMPROV BATTLE! I'm JAX, your host for tonight's wild ride into the world of spontaneous comedy! 
+    
+And YOU must be {state.player_name}! Fantastic name, really rolls off the tongue. 
+    
+So here's the deal - I'm gonna throw some ridiculous scenarios at you, and you're gonna improvise your way through them. 
+Could be magical, could be a beautiful disaster - either way, we're gonna have FUN!
+
+So tell me {state.player_name}, how many rounds do you wanna go? I'd suggest 2 to 5, but hey, 3 is the sweet spot for most first-timers!"""
+
+    await session.generate_reply(
+        instructions=f"Greet the player with this welcome message, delivering it with your signature JAX energy and style: {greeting}"
+    )
+
 
 if __name__ == "__main__":
     cli.run_app(WorkerOptions(entrypoint_fnc=entrypoint, prewarm_fnc=prewarm))
