@@ -2,13 +2,15 @@
 
 <div align="center">
 
+<img src="./assets/10days10agents-challange-master-banner.png" alt="10 Days of AI Voice Agents - Challenge Complete" width="100%" />
+
+<br/>
+
 ![Challenge Complete](https://img.shields.io/badge/Challenge-Complete-success?style=for-the-badge&logo=checkmarx)
 ![10 Agents](https://img.shields.io/badge/Agents%20Built-10-blue?style=for-the-badge)
 ![Murf AI](https://img.shields.io/badge/Powered%20By-Murf%20Falcon-purple?style=for-the-badge)
 
-**Built for the [Murf AI Voice Agents Challenge](https://luma.com/9j9pzkte?tk=hl7PD3)**
-
-*10 Days. 10 Agents. 1 Incredible Journey.*
+**Built for the [Murf AI Voice Agents Challenge](https://luma.com/9j9pzkte?tk=hl7PD3)**  |  **10 Days. 10 Agents. 1 Incredible Journey.**
 
 </div>
 
